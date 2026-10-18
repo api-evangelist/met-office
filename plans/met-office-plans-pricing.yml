@@ -98,3 +98,78 @@ plans:
   - £96 per extra 100GB
   - Payable via invoice
   - Contact dpt@metoffice.gov.uk
+x-canonical:
+  generated: '2026-10-18'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  - negotiated
+  - subscription
+  units: []
+  plans:
+  - name: Free
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods: []
+  - name: Trial
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods: []
+  - name: 10 GB Monthly
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: 25 GB Monthly
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: 50 GB Monthly
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: 100 GB Monthly
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: 150 GB Monthly
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: 250 GB Monthly
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: 400 GB Monthly
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: 600 GB Monthly
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: Invoice Plan (600-1,500 GB)
+    access: other
+    model: negotiated
+    model_how: derived
+    units: []
+    periods: []
