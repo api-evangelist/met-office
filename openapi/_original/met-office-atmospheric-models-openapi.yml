@@ -1,0 +1,1043 @@
+# x-archived-from: met-office-atmospheric-models-openapi.yml
+# x-archived-on: 2026-10-18
+openapi: 3.0.1
+info:
+  title: Atmospheric Model
+  description: "This API allows you to retrieve orders for Atmospheric Model Data otherwise \n    known as ‘Gridded’ data.\
+    \ The API described here contains a definition for all \n    requests as well as examples of how to write your code to\
+    \ interface with our \n    gateway to retrieve your data.\n\n When you call this API you will need your API key and\n\
+    \    can begin by making a call to /1.0.0/orders (this will give you all of your\n    Order IDs).\n\n API Usage is typically\
+    \ done in 4 Steps\n\n 1. Call GET /1.0.0/orders - to programmatically get each order's \"orderId\"\n    field\n\n 2. Call\
+    \ GET /1.0.0/orders/{orderId}/latest - to get a list of \"fileId\"\n    entries (these represent all the files available\
+    \ for this order)\n\n 3. Call GET /1.0.0/orders/{orderId}/latest/{fileId} - to get more detailed\n    information about\
+    \ each file if required\n\n 4. Call GET /1.0.0/orders/{orderId}/latest/{fileId}/data - with an Accept\n    header of application/x-grib\
+    \ to get access to a specific GRIB file\n\n There are additional end points to query the runs available:\n\n 1. Call GET\
+    \ /1.0.0/runs - to get each available run\n\n 2. Call GET /1.0.0/runs/{modelId} - to get each available run for a\n  \
+    \  particular model\n\n Using your application, you can go through multiple\n    orders and then retrieve the files for\
+    \ each.\n\n Please be aware that the files could be delivered by redirecting your\n    client, so your client should follow\
+    \ any HTTP 302 redirects it gets to allow\n    it to download the file. Please note the file ID will need to be URL encoded.\n\
+    \n This is done in Curl by adding -L or --location (in programming languages,\n    you will need to visit the new URL\
+    \ to get your file).\n\n If there are any errors or issues, each endpoint will provide an appropriate\n    HTTP response\
+    \ and may provide a JSON body providing you with further helpful\n    information, so please do not forget to check for\
+    \ errors.\n\n If you are testing before development or downloading using scripts with a\n    tool like Curl you can view\
+    \ errors using --verbose. If you do not do this it\n    could just appear that you are getting \"nothing back\"."
+  termsOfService: ''
+  contact:
+    name: Data Provisioning Team (DPT)
+    url: https://www.metoffice.gov.uk/about-us/contact
+    email: enquiries@metoffice.gov.uk
+  version: 2.1.0
+servers:
+- url: https://data.hub.api.metoffice.gov.uk/atmospheric-models/1.0.0
+  description: Base URL stated on the Weather DataHub API documentation page
+security:
+- APIKey: []
+paths:
+  /orders:
+    get:
+      tags: []
+      summary: List all orders visible to current user.
+      description: This gets an object detailing the active orders that have been configured using the Atmospheric Weather
+        Data Configuration Tool for your Organsation.
+      operationId: getOrders
+      parameters:
+      - name: detail
+        in: query
+        description: Optional level of detail in the response. Valid options are MINIMAL or FULL. Default is FULL.
+        schema:
+          type: string
+          enum:
+          - MINIMAL
+          - FULL
+      - name: dataSpec
+        in: query
+        description: The data specification to use, only version 1.1.0 is currently supported.
+        schema:
+          type: string
+          enum:
+          - 1.1.0
+          default: 1.1.0
+      - name: Accept
+        in: header
+        description: application/json required here.
+        required: true
+        example: application/json
+        schema:
+          type: string
+      responses:
+        '200':
+          description: All available orders are returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiOrderList'
+        '400':
+          description: Your request is incorrectly formed so the API is unable to process it. Please check that your URL and
+            headers are correct.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server400'
+        '401':
+          description: You have not sent any authentication ('apikey' header) or your authentication details (API Key) are
+            incorrect.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server401'
+        '403':
+          description: You sent correct authentication details (API Key), but you do not have permissions to access this resource.
+            Please check that your Application is subscribed to a plan allowing you access to this API.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server403'
+        '404':
+          description: Resource not found. You have requested a URL that the service does not have, please check you have
+            sent a correct URL. When requesting /orders please remember to leave off the trailing forward slash.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server404'
+        '406':
+          description: You requested a resource format that cannot be supplied. For all endpoints, your Accept header should
+            contain application/json except when requesting a file with /data when you should send the correct MIME type for
+            the file being received.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server406'
+        '429':
+          description: You sent too many requests for the current period and have now been blocked from making any further
+            calls to the service. See details of your subscription describing how many calls you are allowed to make.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server429'
+        '500':
+          description: Something went wrong on the server which is not your fault. Please retry your request again. If you
+            continue to experience this error then please report the problem to the Met Office Support Teams.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server500'
+        '503':
+          description: The server is temporarily overloaded. Please retry your request again. If you continue to experience
+            this error then please report the problem to the Met Office Support Teams.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server503'
+      deprecated: false
+      security:
+      - APIKey: []
+  /orders/{orderId}/latest:
+    get:
+      tags: []
+      summary: Provide a list of the latest available data files for the specified order.
+      description: Provide a list of available files for the order created in the Atmospheric Weather Data Tool. This contains
+        metadata such as fileId, the runs, the region selected and the parameters and time steps selected.
+      operationId: getOrderLatest
+      parameters:
+      - name: orderId
+        in: path
+        description: The order ID that you wish to retrieve information for. This could be different to your order name as
+          entered on the Atmospheric Weather Data Tool because certain characters are removed from that name. Please ensure
+          you check for the API Order ID on the Order Summary page or use the one retrieved from a call to /orders.
+        required: true
+        schema:
+          type: string
+      - name: detail
+        in: query
+        description: Optional level of detail in the response. Valid options are MINIMAL or FULL. Default is FULL.
+        schema:
+          type: string
+          enum:
+          - MINIMAL
+          - FULL
+      - name: runfilter
+        in: query
+        description: Optional filter to limit listed files. Valid options are CURRENT for latest run, YYYYMMDDRR or RR. Where
+          RR is the run hour.
+        schema:
+          type: string
+      - name: dataSpec
+        in: query
+        description: The data specification to use, only version 1.1.0 is currently supported.
+        schema:
+          type: string
+          enum:
+          - 1.1.0
+          default: 1.1.0
+      - name: Accept
+        in: header
+        description: application/json required here.
+        required: true
+        example: application/json
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A list of an orders's latest available data files is returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiOrderDetails'
+        '400':
+          description: Your request is incorrectly formed so the API is unable to process it. Please check that your URL and
+            headers are correct.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server400'
+        '401':
+          description: You have not sent any authentication ('apikey' header) or your authentication details (API Key) are
+            incorrect.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server401'
+        '403':
+          description: You sent correct authentication details (API Key), but you do not have permissions to access this resource.
+            Please check you are subscribed to a plan allowing you access to this API.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server403'
+        '404':
+          description: Resource not found. You have requested a URL that the service does not have, please check that you
+            have sent a correct URL.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server404'
+        '406':
+          description: You requested a resource format that cannot be supplied. For all endpoints, your Accept header should
+            contain application/json except when requesting a file with /data when you should send the correct MIME type for
+            the file being received.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server406'
+        '429':
+          description: You sent too many requests for the current period and have now been blocked from making any further
+            calls to the service. See details of your subscription describing how many calls you are allowed to make.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server429'
+        '500':
+          description: Something went wrong on the server which is not your fault. Please retry your request again. If you
+            continue to experience this error then please report the problem to the Met Office Support Teams.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server500'
+        '503':
+          description: The server is temporarily overloaded. Please retry your request again. If you continue to experience
+            this error then please report the problem to the Met Office Support Teams.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server503'
+      deprecated: false
+      security:
+      - APIKey: []
+  /orders/{orderId}/latest/{fileId}:
+    get:
+      tags: []
+      summary: Provide the details of a specific file that can be obtained for the latest available data.
+      description: Provides metadata about a specific fileId. For example you can find out what the file will contain including
+        the surface identifier, the region it covers, the model generation time (run time) and the parameters, time steps
+        and level information it contains.
+      operationId: getOrderLatestFileDetails
+      parameters:
+      - name: orderId
+        in: path
+        description: The order ID that you wish to retrieve information about. The Order ID can be seen under a specific order
+          on the Atmospheric Weather Data Tool Order Summary Page or found in the list of orders in the JSON response from
+          your call to /1.0.0/orders
+        required: true
+        schema:
+          type: string
+      - name: fileId
+        in: path
+        description: The file ID of the application/x-grib file you wish to retrieve information about. The file IDs can be
+          seen on the Atmospheric Weather Data Tool Order Summary Page or found in the JSON response from your call to /1.0.0/orders/{orderId}/latest.
+          Please note the file IDs will need to be URL encoded.
+        required: true
+        schema:
+          type: string
+      - name: dataSpec
+        in: query
+        description: The data specification to use, only version 1.1.0 is currently supported.
+        schema:
+          type: string
+          enum:
+          - 1.1.0
+          default: 1.1.0
+      - name: Accept
+        in: header
+        description: application/json required here.
+        required: true
+        example: application/json
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Details of a specific file within an order
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiOrderFileDetails'
+        '400':
+          description: Your request is incorrectly formed so the API is unable to process it. Please check that your URL and
+            headers are correct.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server400'
+        '401':
+          description: You have not sent any authentication ('apikey' header) or your authentication details (API Key) are
+            incorrect.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server401'
+        '403':
+          description: You sent correct authentication details (API Key), but you do not have permissions to access this resource.
+            Please check that your Application is subscribed to a plan allowing you access to this API.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server403'
+        '404':
+          description: Resource not found. You have requested a URL that the service does not have, please check that you
+            have sent a correct URL.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server404'
+        '406':
+          description: You requested a resource format that cannot be supplied. For all endpoints, your Accept header should
+            contain application/json except when requesting a file with /data when you should send the correct MIME type for
+            the file being received.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server406'
+        '429':
+          description: You sent too many requests for the current period and have now been blocked from making any further
+            calls to the service. See details of your subscription describing how many calls you are allowed to make.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server429'
+        '500':
+          description: Something went wrong on the server which is not your fault. Please retry your request again. If you
+            continue to experience this error then please report the problem to the Met Office Support Teams.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server500'
+        '503':
+          description: The server is temporarily overloaded. Please retry your request again. If you continue to experience
+            this error then please report the problem to the Met Office Support Teams.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server503'
+      deprecated: false
+      security:
+      - APIKey: []
+  /orders/{orderId}/latest/{fileId}/data:
+    get:
+      tags: []
+      summary: Gets the actual data for a specific file that can be obtained for the latest available data.
+      description: This endpoint provides the binary file data for a given file ID. Please note that the data will be returned
+        from an alternative URL instead of directly. This means you will need to process an HTTP 302 and visit the URL given
+        in the Location header to get the binary data stream containing the file contents.
+      operationId: getOrderLatestFileData
+      parameters:
+      - name: orderId
+        in: path
+        description: The order ID that you wish to retrieve files for. The Order ID can be seen under a specific order on
+          the Atmospheric Weather Data Tool Order Summary Page or found in the list of orders in the JSON response from your
+          call to /1.0.0/orders
+        required: true
+        schema:
+          type: string
+      - name: fileId
+        in: path
+        description: The file ID of the application/x-grib file you wish to retrieve information about. The file IDs can be
+          seen on the Atmospheric Weather Data Tool Order Summary Page or found in the JSON response from your call to /1.0.0/orders/{orderId}/latest.
+          Please note the file IDs will need to be URL encoded.
+        required: true
+        schema:
+          type: string
+      - name: dataSpec
+        in: query
+        description: The data specification to use, only version 1.1.0 is currently supported.
+        schema:
+          type: string
+          enum:
+          - 1.1.0
+          default: 1.1.0
+      - name: Accept
+        in: header
+        description: application/x-grib required here to receive the 302. Once the  new location is visited the binary contents
+          of the file will be made  available to your application.
+        required: true
+        example: application/x-grib
+        schema:
+          type: string
+      responses:
+        '302':
+          description: HTTP redirect with a Location header that gives you the URL to visit to retrieve your file. Please
+            ensure your application  can successfully handle redirects. If you are using a or similar  then please remember
+            to pass the or location arguments to the  command to force it to follow the redirect and get the file content  on
+            your behalf.
+          content: {}
+        '400':
+          description: Your request is incorrectly formed so the API is unable to process it. Please check that your URL and
+            headers are correct.
+          content:
+            application/x-grib:
+              schema:
+                $ref: '#/components/schemas/Server400'
+        '401':
+          description: You have not sent any authentication ('apikey' header) or your authentication details (API Key) are
+            incorrect.
+          content:
+            application/x-grib:
+              schema:
+                $ref: '#/components/schemas/Server401'
+        '403':
+          description: You sent correct authentication details (API Key), but you do not have permissions to access this resource.
+            Please check that your Application is subscribed to a plan allowing you access to this API.
+          content:
+            application/x-grib:
+              schema:
+                $ref: '#/components/schemas/Server403'
+        '404':
+          description: Resource not found. You have requested a URL that the service does not have, please check that you
+            have sent a correct URL.
+          content:
+            application/x-grib:
+              schema:
+                $ref: '#/components/schemas/Server404'
+        '406':
+          description: You requested a resource format that cannot be supplied. For all endpoints, your Accept header should
+            contain application/json except when requesting a file with /data when you should send the correct MIME type for
+            the file being received.
+          content:
+            application/x-grib:
+              schema:
+                $ref: '#/components/schemas/Server406'
+        '429':
+          description: You sent too many requests for the current period and have now been blocked from making any further
+            calls to the service. See details of your subscription describing how many calls you are allowed to make.
+          content:
+            application/x-grib:
+              schema:
+                $ref: '#/components/schemas/Server429'
+        '500':
+          description: Something went wrong on the server which is not your fault. Please retry your request again. If you
+            continue to experience this error then please report the problem to the Met Office Support Teams.
+          content:
+            application/x-grib:
+              schema:
+                $ref: '#/components/schemas/Server500'
+        '503':
+          description: The server is temporarily overloaded. Please retry your request again. If you continue to experience
+            this error then please report the problem to the Met Office Support Teams.
+          content:
+            application/x-grib:
+              schema:
+                $ref: '#/components/schemas/Server503'
+      deprecated: false
+      security:
+      - APIKey: []
+  /runs:
+    get:
+      tags: []
+      summary: List all runs
+      description: TODO
+      operationId: getAllRuns
+      parameters:
+      - name: sort
+        in: query
+        description: Optional Sort order for the runs. Valid options are RUN or RUNDATETIME. Default is RUN.
+        schema:
+          type: string
+          enum:
+          - RUN
+          - RUNDATETIME
+      - name: dataSpec
+        in: query
+        description: The data specification to use, only version 1.1.0 is currently supported.
+        schema:
+          type: string
+          enum:
+          - 1.1.0
+          default: 1.1.0
+      - name: Accept
+        in: header
+        description: application/json required here.
+        required: true
+        example: application/json
+        schema:
+          type: string
+      responses:
+        '200':
+          description: All available runs are returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiRunList'
+        '403':
+          description: Invalid API authentication supplied
+          content: {}
+        '406':
+          description: Requested content type not compatible with application/json
+          content: {}
+        '500':
+          description: Internal server error
+          content: {}
+        '503':
+          description: Delivery service unavailable
+          content: {}
+      deprecated: false
+      security:
+      - APIKey: []
+  /runs/{modelId}:
+    get:
+      tags: []
+      summary: List all runs for specific model
+      description: TODO
+      operationId: getModelRuns
+      parameters:
+      - name: modelId
+        in: path
+        description: Identifier of the model for which runs are required
+        required: true
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: Optional Sort order for the runs. Valid options are RUN or RUNDATETIME. Default is RUN.
+        schema:
+          type: string
+          enum:
+          - RUN
+          - RUNDATETIME
+      - name: dataSpec
+        in: query
+        description: The data specification to use, only version 1.1.0 is currently supported.
+        schema:
+          type: string
+          enum:
+          - 1.1.0
+          default: 1.1.0
+      - name: Accept
+        in: header
+        description: application/json required here.
+        required: true
+        example: application/json
+        schema:
+          type: string
+      responses:
+        '200':
+          description: All available runs for specific are returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiRunListForModel'
+        '403':
+          description: Invalid API authentication supplied
+          content: {}
+        '406':
+          description: Requested content type not compatible with application/json
+          content: {}
+        '500':
+          description: Internal server error
+          content: {}
+        '503':
+          description: Delivery service unavailable
+          content: {}
+      deprecated: false
+      security:
+      - APIKey: []
+components:
+  schemas:
+    ApiAxisExtent:
+      title: ApiAxisExtent
+      required:
+      - label
+      - lowerBound
+      - uomLabel
+      - upperBound
+      type: object
+      properties:
+        label:
+          type: string
+        lowerBound:
+          type: string
+        uomLabel:
+          type: string
+        upperBound:
+          type: string
+    ApiOrderAxes:
+      title: ApiOrderAxes
+      required:
+      - x
+      - y
+      type: object
+      properties:
+        x:
+          $ref: '#/components/schemas/ApiAxisExtent'
+        y:
+          $ref: '#/components/schemas/ApiAxisExtent'
+      example:
+        x:
+          label: longitude
+          lowerBound: '-14.0000'
+          upperBound: '37.0000'
+          uomLabel: degree
+        y:
+          label: latitude
+          lowerBound: '33.0000'
+          upperBound: '68.0000'
+          uomLabel: degree
+    ApiOrderDetails:
+      title: ApiOrderDetails
+      required:
+      - orderDetails
+      type: object
+      properties:
+        orderDetails:
+          $ref: '#/components/schemas/ApiOrderDetailsOrderDetails'
+    ApiOrderDetailsOrderDetails:
+      title: ApiOrderDetailsOrderDetails
+      required:
+      - files
+      - order
+      type: object
+      properties:
+        order:
+          $ref: '#/components/schemas/ApiOrderInfoSummary'
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiOrderFile'
+      description: Details of the order and a list of available files
+    ApiOrderFile:
+      title: ApiOrderFile
+      required:
+      - fileId
+      - parameters
+      - run
+      - runDateTime
+      - timesteps
+      type: object
+      properties:
+        fileId:
+          type: string
+          description: Identifier for requesting this file
+          example: isbl_temperature_100000_+00
+        surfaceId:
+          type: string
+          description: Model specific surface type for parameters within this file
+          example: isbl
+        levels:
+          type: array
+          description: An array of levels for which data will be included
+          example:
+          - '100000'
+          items:
+            type: string
+        runDateTime:
+          type: string
+          description: Date and time of the model run
+          example: '2020-02-19T12:00:00.000Z'
+        run:
+          type: string
+          description: Time of the run within the day
+          example: '12'
+        region:
+          $ref: '#/components/schemas/ApiRegionDetails'
+        parameters:
+          type: array
+          description: Array of one or more parameters that will be included in the file
+          example:
+          - temperature
+          items:
+            type: string
+        timesteps:
+          type: array
+          description: Timesteps, relative to run time, for which data will be returned in this file if available
+          example:
+          - '0'
+          - '3'
+          - '6'
+          - '9'
+          - '12'
+          - '15'
+          - '18'
+          - '21'
+          - '24'
+          items:
+            type: string
+    ApiOrderFileDetails:
+      title: ApiOrderFileDetails
+      required:
+      - fileDetails
+      type: object
+      properties:
+        fileDetails:
+          $ref: '#/components/schemas/ApiOrderFileDetailsFileDetails'
+    ApiOrderFileDetailsFileDetails:
+      title: ApiOrderFileDetailsFileDetails
+      required:
+      - file
+      - parameterDetails
+      type: object
+      properties:
+        file:
+          $ref: '#/components/schemas/ApiOrderFile'
+        parameterDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiParameterDetails'
+    ApiOrderInfo:
+      title: ApiOrderInfo
+      required:
+      - format
+      - modelId
+      - name
+      - orderId
+      - requiredLatestRuns
+      type: object
+      properties:
+        description:
+          type: string
+          description: A description of the order
+          example: Example CDA order created by Fred
+        format:
+          type: string
+          description: Format of the returned data file
+          example: GRIB2
+          enum:
+          - GRIB2
+        modelId:
+          type: string
+          description: Model used to generate the data
+          example: mo-global
+        name:
+          type: string
+          description: Name assigned to the order by the user
+          example: my_order
+        orderId:
+          type: string
+          description: order identifier
+          example: myorder
+        regions:
+          type: array
+          description: Geographical regions for which data will be included
+          items:
+            $ref: '#/components/schemas/ApiRegionDetails'
+        requiredLatestRuns:
+          type: array
+          description: List of model run times for which latest data will be available. Only the last run for each time will
+            be available.
+          example:
+          - '00'
+          items:
+            type: string
+        timesteps:
+          type: array
+          description: Timesteps, relative to run time, for which data will be returned if available
+          example:
+          - '0'
+          - '3'
+          - '6'
+          - '9'
+          - '12'
+          - '15'
+          - '18'
+          - '21'
+          - '24'
+          items:
+            type: string
+    ApiOrderInfoSummary:
+      title: ApiOrderInfoSummary
+      required:
+      - format
+      - modelId
+      - name
+      - orderId
+      type: object
+      properties:
+        orderId:
+          type: string
+          description: order identifier
+          example: myorder
+        name:
+          type: string
+          description: Name assigned to the order by the user
+          example: my_order
+        modelId:
+          type: string
+          description: Model used to generate the data
+          example: mo-global
+        format:
+          type: string
+          description: Format of the returned data file
+          example: GRIB2
+          enum:
+          - GRIB2
+    ApiOrderList:
+      title: ApiOrderList
+      required:
+      - orders
+      type: object
+      properties:
+        orders:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiOrderInfo'
+    ApiParameterAxes:
+      title: ApiParameterAxes
+      required:
+      - t
+      type: object
+      properties:
+        t:
+          type: array
+          items:
+            type: string
+        z:
+          type: array
+          items:
+            type: number
+      example:
+        t:
+        - '2020-02-19T12:00:00.000Z'
+        - '2020-02-19T15:00:00.000Z'
+        - '2020-02-19T18:00:00.000Z'
+        - '2020-02-19T21:00:00.000Z'
+        - '2020-02-20T00:00:00.000Z'
+        - '2020-02-20T03:00:00.000Z'
+        - '2020-02-20T06:00:00.000Z'
+        - '2020-02-20T09:00:00.000Z'
+        - '2020-02-20T12:00:00.000Z'
+        z:
+        - '100000'
+    ApiParameterDetails:
+      title: ApiParameterDetails
+      required:
+      - extent
+      - parameterId
+      type: object
+      properties:
+        parameterId:
+          type: string
+          description: Identifies a particular parameter within the model
+          example: temperature
+        extent:
+          $ref: '#/components/schemas/ApiParameterAxes'
+    ApiRegionDetails:
+      title: ApiRegionDetails
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the region
+          example: Europe
+        extent:
+          $ref: '#/components/schemas/ApiOrderAxes'
+    ApiRunList:
+      title: ApiRunList
+      required:
+      - runs
+      type: object
+      properties:
+        runs:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiRunListForModel'
+    ApiRunListForModel:
+      title: ApiRunListForModel
+      required:
+      - completeRuns
+      - modelId
+      type: object
+      properties:
+        modelId:
+          type: string
+          description: Model identifier
+          example: mo-global
+        completeRuns:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiRunDetails'
+    ApiRunDetails:
+      title: ApiRunDetails
+      required:
+      - run
+      - runDateTime
+      - runFilter
+      type: object
+      properties:
+        run:
+          type: string
+          description: The hour of the run, 00, 01, etc
+          example: '06'
+        runDateTime:
+          type: string
+          description: The actual date and time of the run
+          example: '2021-01-25T06:00:00.000Z'
+        runFilter:
+          type: string
+          description: The actual date and time of the run in the runFilter format used by orders API
+          example: '2021012506'
+    File:
+      title: File
+      type: object
+      properties:
+        absolute:
+          type: boolean
+        absoluteFile:
+          $ref: '#/components/schemas/File'
+        absolutePath:
+          type: string
+        canonicalFile:
+          $ref: '#/components/schemas/File'
+        canonicalPath:
+          type: string
+        directory:
+          type: boolean
+        file:
+          type: boolean
+        freeSpace:
+          type: integer
+          format: int64
+        hidden:
+          type: boolean
+        name:
+          type: string
+        parent:
+          type: string
+        parentFile:
+          $ref: '#/components/schemas/File'
+        path:
+          type: string
+        totalSpace:
+          type: integer
+          format: int64
+        usableSpace:
+          type: integer
+          format: int64
+    Server400:
+      required:
+      - httpCode
+      - httpMessage
+      - moreInformation
+      type: object
+      properties:
+        httpCode:
+          type: string
+          example: '400'
+        httpMessage:
+          type: string
+          example: Bad Request
+        moreInformation:
+          type: string
+          example: Your browser sent an invalid request.
+    Server401:
+      type: object
+      properties:
+        httpCode:
+          type: string
+          example: '401'
+        httpMessage:
+          type: string
+          example: Unauthorized
+        moreInformation:
+          type: string
+          example: Invalid client id or secret.
+    Server403:
+      type: object
+      properties:
+        httpCode:
+          type: string
+          example: '403'
+        httpMessage:
+          type: string
+          example: Forbidden
+        moreInformation:
+          type: string
+          example: You are not allowed to access this resource.
+    Server404:
+      type: object
+      properties:
+        httpCode:
+          type: string
+          example: '404'
+        httpMessage:
+          type: string
+          example: Not Found
+        moreInformation:
+          type: string
+          example: No resources match requested URI.
+    Server406:
+      type: object
+      properties:
+        httpCode:
+          type: string
+          example: '406'
+        httpMessage:
+          type: string
+          example: Not Acceptable
+        moreInformation:
+          type: string
+          example: Could not find acceptable representation.
+    Server429:
+      type: object
+      properties:
+        httpCode:
+          type: string
+          example: '429'
+        httpMessage:
+          type: string
+          example: Too Many Requests
+        moreInformation:
+          type: string
+          example: Rate Limit Exceeded.
+    Server500:
+      type: object
+      properties:
+        httpCode:
+          type: string
+          example: '500'
+        httpMessage:
+          type: string
+          example: Internal Server Error
+        moreInformation:
+          type: string
+          example: Something went wrong on the server that was not your fault.
+    Server503:
+      type: object
+      properties:
+        length:
+          type: string
+          example: '33'
+  securitySchemes:
+    APIKey:
+      type: apiKey
+      description: The API Key generated with your Subscription in Weather DataHub, this must be set as 'apikey' in your header.
+      name: apikey
+      in: header
+x-original: https://datahub.metoffice.gov.uk/downloads/api-definitions/atmosphericmodel_versioned_subscriber.json

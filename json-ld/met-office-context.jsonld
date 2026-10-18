@@ -1,0 +1,371 @@
+{
+  "@context": {
+    "@vocab": "https://metoffice.gov.uk/schema#",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "met": "https://metoffice.gov.uk/schema#",
+    "ApiAxisExtent": "met:ApiAxisExtent",
+    "label": {
+      "@id": "met:label",
+      "@type": "xsd:string"
+    },
+    "lowerBound": {
+      "@id": "met:lowerBound",
+      "@type": "xsd:string"
+    },
+    "uomLabel": {
+      "@id": "met:uomLabel",
+      "@type": "xsd:string"
+    },
+    "upperBound": {
+      "@id": "met:upperBound",
+      "@type": "xsd:string"
+    },
+    "ApiOrderAxes": "met:ApiOrderAxes",
+    "x": {
+      "@id": "met:x",
+      "@type": "@id"
+    },
+    "y": {
+      "@id": "met:y",
+      "@type": "@id"
+    },
+    "ApiOrderDetails": "met:ApiOrderDetails",
+    "orderDetails": {
+      "@id": "met:orderDetails",
+      "@type": "@id"
+    },
+    "ApiOrderDetailsOrderDetails": "met:ApiOrderDetailsOrderDetails",
+    "order": {
+      "@id": "met:order",
+      "@type": "@id"
+    },
+    "files": {
+      "@id": "met:files",
+      "@container": "@list"
+    },
+    "ApiOrderFile": "met:ApiOrderFile",
+    "fileId": {
+      "@id": "met:fileId",
+      "@type": "xsd:string"
+    },
+    "surfaceId": {
+      "@id": "met:surfaceId",
+      "@type": "xsd:string"
+    },
+    "levels": {
+      "@id": "met:levels",
+      "@container": "@list"
+    },
+    "runDateTime": {
+      "@id": "met:runDateTime",
+      "@type": "xsd:string"
+    },
+    "run": {
+      "@id": "met:run",
+      "@type": "xsd:string"
+    },
+    "region": {
+      "@id": "met:region",
+      "@type": "@id"
+    },
+    "parameters": {
+      "@id": "met:parameters",
+      "@container": "@list"
+    },
+    "timesteps": {
+      "@id": "met:timesteps",
+      "@container": "@list"
+    },
+    "ApiOrderFileDetails": "met:ApiOrderFileDetails",
+    "fileDetails": {
+      "@id": "met:fileDetails",
+      "@type": "@id"
+    },
+    "ApiOrderFileDetailsFileDetails": "met:ApiOrderFileDetailsFileDetails",
+    "file": {
+      "@id": "met:file",
+      "@type": "@id"
+    },
+    "parameterDetails": {
+      "@id": "met:parameterDetails",
+      "@container": "@list"
+    },
+    "ApiOrderInfo": "met:ApiOrderInfo",
+    "description": {
+      "@id": "met:description",
+      "@type": "xsd:string"
+    },
+    "format": {
+      "@id": "met:format",
+      "@type": "xsd:string"
+    },
+    "modelId": {
+      "@id": "met:modelId",
+      "@type": "xsd:string"
+    },
+    "name": {
+      "@id": "met:name",
+      "@type": "xsd:string"
+    },
+    "orderId": {
+      "@id": "met:orderId",
+      "@type": "xsd:string"
+    },
+    "regions": {
+      "@id": "met:regions",
+      "@container": "@list"
+    },
+    "requiredLatestRuns": {
+      "@id": "met:requiredLatestRuns",
+      "@container": "@list"
+    },
+    "ApiOrderInfoSummary": "met:ApiOrderInfoSummary",
+    "ApiOrderList": "met:ApiOrderList",
+    "orders": {
+      "@id": "met:orders",
+      "@container": "@list"
+    },
+    "ApiParameterAxes": "met:ApiParameterAxes",
+    "t": {
+      "@id": "met:t",
+      "@container": "@list"
+    },
+    "z": {
+      "@id": "met:z",
+      "@container": "@list"
+    },
+    "ApiParameterDetails": "met:ApiParameterDetails",
+    "parameterId": {
+      "@id": "met:parameterId",
+      "@type": "xsd:string"
+    },
+    "extent": {
+      "@id": "met:extent",
+      "@type": "@id"
+    },
+    "ApiRegionDetails": "met:ApiRegionDetails",
+    "ApiRunList": "met:ApiRunList",
+    "runs": {
+      "@id": "met:runs",
+      "@container": "@list"
+    },
+    "ApiRunListForModel": "met:ApiRunListForModel",
+    "completeRuns": {
+      "@id": "met:completeRuns",
+      "@container": "@list"
+    },
+    "ApiRunDetails": "met:ApiRunDetails",
+    "runFilter": {
+      "@id": "met:runFilter",
+      "@type": "xsd:string"
+    },
+    "File": "met:File",
+    "absolute": {
+      "@id": "met:absolute",
+      "@type": "xsd:boolean"
+    },
+    "absoluteFile": {
+      "@id": "met:absoluteFile",
+      "@type": "@id"
+    },
+    "absolutePath": {
+      "@id": "met:absolutePath",
+      "@type": "xsd:string"
+    },
+    "canonicalFile": {
+      "@id": "met:canonicalFile",
+      "@type": "@id"
+    },
+    "canonicalPath": {
+      "@id": "met:canonicalPath",
+      "@type": "xsd:string"
+    },
+    "directory": {
+      "@id": "met:directory",
+      "@type": "xsd:boolean"
+    },
+    "freeSpace": {
+      "@id": "met:freeSpace",
+      "@type": "xsd:integer"
+    },
+    "hidden": {
+      "@id": "met:hidden",
+      "@type": "xsd:boolean"
+    },
+    "parent": {
+      "@id": "met:parent",
+      "@type": "xsd:string"
+    },
+    "parentFile": {
+      "@id": "met:parentFile",
+      "@type": "@id"
+    },
+    "path": {
+      "@id": "met:path",
+      "@type": "xsd:string"
+    },
+    "totalSpace": {
+      "@id": "met:totalSpace",
+      "@type": "xsd:integer"
+    },
+    "usableSpace": {
+      "@id": "met:usableSpace",
+      "@type": "xsd:integer"
+    },
+    "Server400": "met:Server400",
+    "httpCode": {
+      "@id": "met:httpCode",
+      "@type": "xsd:string"
+    },
+    "httpMessage": {
+      "@id": "met:httpMessage",
+      "@type": "xsd:string"
+    },
+    "moreInformation": {
+      "@id": "met:moreInformation",
+      "@type": "xsd:string"
+    },
+    "Server401": "met:Server401",
+    "Server403": "met:Server403",
+    "Server404": "met:Server404",
+    "Server406": "met:Server406",
+    "Server429": "met:Server429",
+    "Server500": "met:Server500",
+    "Server503": "met:Server503",
+    "length": {
+      "@id": "met:length",
+      "@type": "xsd:string"
+    },
+    "MODEL3b85ce": "met:MODEL3b85ce",
+    "collections": {
+      "@id": "met:collections",
+      "@type": "@id"
+    },
+    "links": {
+      "@id": "met:links",
+      "@type": "@id"
+    },
+    "MODEL5c21c2": "met:MODEL5c21c2",
+    "title": {
+      "@id": "met:title",
+      "@type": "xsd:string"
+    },
+    "MODEL682434": "met:MODEL682434",
+    "conformsTo": {
+      "@id": "met:conformsTo",
+      "@container": "@list"
+    },
+    "collection": "met:collection",
+    "id": {
+      "@id": "met:id",
+      "@type": "xsd:string"
+    },
+    "output_formats": {
+      "@id": "met:output_formats",
+      "@container": "@list"
+    },
+    "error": "met:error",
+    "message": {
+      "@id": "met:message",
+      "@type": "xsd:string"
+    },
+    "link": "met:link",
+    "href": {
+      "@id": "met:href",
+      "@type": "xsd:string"
+    },
+    "hrefLang": {
+      "@id": "met:hrefLang",
+      "@type": "xsd:string"
+    },
+    "rel": {
+      "@id": "met:rel",
+      "@type": "xsd:string"
+    },
+    "type": {
+      "@id": "met:type",
+      "@type": "xsd:string"
+    },
+    "Feature": "met:Feature",
+    "geometry": {
+      "@id": "met:geometry",
+      "@type": "@id"
+    },
+    "properties": {
+      "@id": "met:properties",
+      "@type": "@id"
+    },
+    "Location": "met:Location",
+    "licence": {
+      "@id": "met:licence",
+      "@type": "xsd:string"
+    },
+    "ParameterDetails": "met:ParameterDetails",
+    "unit": {
+      "@id": "met:unit",
+      "@type": "@id"
+    },
+    "Point": "met:Point",
+    "coordinates": {
+      "@id": "met:coordinates",
+      "@container": "@list"
+    },
+    "Properties": "met:Properties",
+    "location": {
+      "@id": "met:location",
+      "@type": "@id"
+    },
+    "modelRunDate": {
+      "@id": "met:modelRunDate",
+      "@type": "xsd:string"
+    },
+    "requestPointDistance": {
+      "@id": "met:requestPointDistance",
+      "@type": "xsd:decimal"
+    },
+    "timeSeries": {
+      "@id": "met:timeSeries"
+    },
+    "SpotForecastFeatureCollection": "met:SpotForecastFeatureCollection",
+    "features": {
+      "@id": "met:features",
+      "@container": "@list"
+    },
+    "Symbol": "met:Symbol",
+    "value": {
+      "@id": "met:value",
+      "@type": "xsd:string"
+    },
+    "TimeSeries": "met:TimeSeries",
+    "data": {
+      "@id": "met:data"
+    },
+    "time": {
+      "@id": "met:time",
+      "@type": "xsd:string"
+    },
+    "Unit": "met:Unit",
+    "symbol": {
+      "@id": "met:symbol",
+      "@type": "@id"
+    },
+    "VndError": "met:VndError",
+    "logref": {
+      "@id": "met:logref",
+      "@type": "xsd:string"
+    }
+  },
+  "@type": "schema:Dataset",
+  "schema:name": "Met Office API JSON-LD context",
+  "schema:description": "A JSON-LD @context for the objects Met Office's own API contract declares: one class per component schema, one property per declared field, typed from the contract. Derived by script (derive-json-ld.py, 2026-10-18) from openapi/met-office-atmospheric-models-openapi.yml, openapi/met-office-blended-probabilistic-forecast-openapi.yml, openapi/met-office-land-observations-openapi.yml.",
+  "dcterms:created": "2026-10-18",
+  "dcterms:source": [
+    "openapi/met-office-atmospheric-models-openapi.yml",
+    "openapi/met-office-blended-probabilistic-forecast-openapi.yml",
+    "openapi/met-office-land-observations-openapi.yml",
+    "openapi/met-office-map-images-openapi.yml",
+    "openapi/met-office-nswws-warnings-openapi.yml"
+  ]
+}

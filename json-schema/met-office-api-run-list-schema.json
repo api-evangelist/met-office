@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/met-office/main/json-schema/met-office-api-run-list-schema.json",
+  "title": "ApiRunList",
+  "x-generated": "2026-10-18",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/met-office-atmospheric-models-openapi.yml#/components/schemas/ApiRunList",
+  "required": [
+    "runs"
+  ],
+  "type": "object",
+  "properties": {
+    "runs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ApiRunListForModel"
+      }
+    }
+  },
+  "$defs": {
+    "ApiRunDetails": {
+      "title": "ApiRunDetails",
+      "required": [
+        "run",
+        "runDateTime",
+        "runFilter"
+      ],
+      "type": "object",
+      "properties": {
+        "run": {
+          "type": "string",
+          "description": "The hour of the run, 00, 01, etc"
+        },
+        "runDateTime": {
+          "type": "string",
+          "description": "The actual date and time of the run"
+        },
+        "runFilter": {
+          "type": "string",
+          "description": "The actual date and time of the run in the runFilter format used by orders API"
+        }
+      }
+    },
+    "ApiRunListForModel": {
+      "title": "ApiRunListForModel",
+      "required": [
+        "completeRuns",
+        "modelId"
+      ],
+      "type": "object",
+      "properties": {
+        "modelId": {
+          "type": "string",
+          "description": "Model identifier"
+        },
+        "completeRuns": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ApiRunDetails"
+          }
+        }
+      }
+    }
+  }
+}

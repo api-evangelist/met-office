@@ -1,0 +1,100 @@
+generated: '2026-10-18'
+method: searched
+source: https://datahub.metoffice.gov.uk/pricing/atmospheric
+name: Met Office pricing
+audience: developer-api
+pricing_basis: tiered-subscription
+published: true
+delivery:
+  delivery: managed
+  evidence: Subscription-based API access to weather data
+plans:
+- name: Free
+  description: Free entry level plan - 1 GB per month ideal for initial API familiarisation or long-term low volume usage
+  price_text: Free - 1 GB per month
+  price: 0
+  features:
+  - 1 GB data per month
+  - API access for familiarisation
+  - Low volume usage
+- name: Trial
+  description: Trial plan - 60 GB over 30 days recommended to sample parameters, and finalise data requirements
+  price_text: Trial - 60 GB over 30 days
+  price: 0
+  features:
+  - 60 GB data over 30 days
+  - Parameter sampling
+  - Data requirements finalization
+- name: 10 GB Monthly
+  description: Monthly subscription with 10 GB data allowance
+  price_text: £15.00
+  price: 15
+  features:
+  - 10 GB data per month
+  - Daily request limit of 130,000 requests
+  - Self-service card payments
+- name: 25 GB Monthly
+  description: Monthly subscription with 25 GB data allowance
+  price_text: £35.00
+  price: 35
+  features:
+  - 25 GB data per month
+  - Daily request limit of 130,000 requests
+  - Self-service card payments
+- name: 50 GB Monthly
+  description: Monthly subscription with 50 GB data allowance
+  price_text: £65.00
+  price: 65
+  features:
+  - 50 GB data per month
+  - Daily request limit of 130,000 requests
+  - Self-service card payments
+- name: 100 GB Monthly
+  description: Monthly subscription with 100 GB data allowance
+  price_text: £128.00
+  price: 128
+  features:
+  - 100 GB data per month
+  - Daily request limit of 130,000 requests
+  - Self-service card payments
+- name: 150 GB Monthly
+  description: Monthly subscription with 150 GB data allowance
+  price_text: £189.00
+  price: 189
+  features:
+  - 150 GB data per month
+  - Daily request limit of 130,000 requests
+  - Self-service card payments
+- name: 250 GB Monthly
+  description: Monthly subscription with 250 GB data allowance
+  price_text: £308.00
+  price: 308
+  features:
+  - 250 GB data per month
+  - Daily request limit of 130,000 requests
+  - Self-service card payments
+- name: 400 GB Monthly
+  description: Monthly subscription with 400 GB data allowance
+  price_text: £476.00
+  price: 476
+  features:
+  - 400 GB data per month
+  - Daily request limit of 130,000 requests
+  - Self-service card payments
+- name: 600 GB Monthly
+  description: Monthly subscription with 600 GB data allowance
+  price_text: £690.00
+  price: 690
+  features:
+  - 600 GB data per month
+  - Daily request limit of 130,000 requests
+  - Self-service card payments
+- name: Invoice Plan (600-1,500 GB)
+  description: Exclusive invoice plan for large volumes of data
+  price_text: £690 (600 GB) £96 (per extra 100GB)
+  price: "Contact sales"
+  features:
+  - 600 GB base
+  - £96 per extra 100GB
+  - Payable via invoice
+  - Contact dpt@metoffice.gov.uk

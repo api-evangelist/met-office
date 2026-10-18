@@ -1,0 +1,117 @@
+openapi: 3.2.0
+info:
+  title: Met Office Capabilities API
+  version: 2.0.0
+  contact:
+    name: Data Provisioning Team (DPT)
+    url: https://www.metoffice.gov.uk/about-us/contact
+    email: enquiries@metoffice.gov.uk
+  description: 'Operations tagged Capabilities across 2 of this provider''s published API definitions: mo-site-specific-blended-probabilistic-forecast-v2_subscriber.json, met-office-blended-probabilistic-forecast-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://data.hub.api.metoffice.gov.uk/mo-blended-prob-forecast-feature-svc/2.0.0
+  description: Base URL stated on the Weather DataHub API documentation page
+security:
+- api_key: []
+tags:
+- name: Capabilities
+  description: Essential characteristics of the information available from the API.
+paths:
+  /:
+    get:
+      tags:
+      - Capabilities
+      summary: Landing page of Feature API
+      description: Provides links to the Feature API definition, the Conformance statements and the metadata about data in this dataset.
+      responses:
+        '200':
+          description: List of endpoint links offered by Feature API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MODEL5c21c2'
+        '500':
+          description: An unexpected error has occurred within the Feature service
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      security:
+      - api_key: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+      operationId: getRoot
+      x-operation-id-source: derived
+  /conformance:
+    get:
+      tags:
+      - Capabilities
+      summary: Information about standards that this API conforms to
+      description: Lists all requirements classes specified in a standard that the Feature Service conforms to.
+      responses:
+        '200':
+          description: List of links to standards
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MODEL682434'
+        '500':
+          description: An unexpected error has occurred within the Feature Service
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      security:
+      - api_key: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+      operationId: getConformance
+      x-operation-id-source: derived
+components:
+  schemas:
+    MODEL5c21c2:
+      type: object
+      properties:
+        description:
+          type: string
+        links:
+          $ref: '#/components/schemas/links'
+        title:
+          type: string
+    links:
+      type: array
+      items:
+        $ref: '#/components/schemas/link'
+    error:
+      type: object
+      properties:
+        message:
+          type: string
+    MODEL682434:
+      type: object
+      properties:
+        conformsTo:
+          type: array
+          items:
+            type: string
+    link:
+      type: object
+      properties:
+        href:
+          type: string
+        hrefLang:
+          type: string
+        rel:
+          type: string
+        title:
+          type: string
+        type:
+          type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      description: The API Key generated with your Subscription in Weather DataHub, this must be set as 'apikey' in your header.
+      name: apikey
+      in: header
+x-refined-from:
+- mo-site-specific-blended-probabilistic-forecast-v2_subscriber.json
+- met-office-blended-probabilistic-forecast-openapi.yml

@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/met-office/main/json-schema/met-office-spot-forecast-feature-collection-schema.json",
+  "title": "SpotForecastFeatureCollection",
+  "description": "A feature collection object, must have a member array of features",
+  "x-generated": "2026-10-18",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/met-office-site-specific-openapi.yml#/components/schemas/SpotForecastFeatureCollection",
+  "required": [
+    "features",
+    "parameters",
+    "type"
+  ],
+  "type": "object",
+  "properties": {
+    "features": {
+      "type": "array",
+      "description": "A list of feature objects",
+      "items": {
+        "$ref": "#/$defs/Feature"
+      }
+    },
+    "parameters": {
+      "type": "array",
+      "description": "Forecast parameter metadata for all possible forecast parameters in response - each forecast parameter has a nested object containing a unit of measurement, using standard unit representation as defined by UCUM - http://unitsofmeasure.org/ucum.html - and an optional parameter definition",
+      "items": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/$defs/ParameterDetails"
+        }
+      }
+    },
+    "type": {
+      "type": "string",
+      "description": "The GeoJSON type identifier"
+    }
+  },
+  "$defs": {
+    "Feature": {
+      "title": "Feature",
+      "required": [
+        "geometry",
+        "properties",
+        "type"
+      ],
+      "type": "object",
+      "properties": {
+        "geometry": {
+          "$ref": "#/$defs/Point"
+        },
+        "properties": {
+          "$ref": "#/$defs/Properties"
+        },
+        "type": {
+          "type": "string",
+          "description": "The GeoJSON type identifier"
+        }
+      },
+      "description": "A feature object with mandatory geometry and properties fields"
+    },
+    "Location": {
+      "title": "Location",
+      "type": "object",
+      "properties": {
+        "licence": {
+          "type": "string",
+          "description": "The licence for the forecast location name"
+        },
+        "name": {
+          "type": "string",
+          "description": "The forecast location name"
+        }
+      }
+    },
+    "ParameterDetails": {
+      "title": "ParameterDetails",
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "unit": {
+          "$ref": "#/$defs/Unit"
+        }
+      }
+    },
+    "Point": {
+      "title": "Point",
+      "required": [
+        "coordinates",
+        "type"
+      ],
+      "type": "object",
+      "properties": {
+        "coordinates": {
+          "type": "array",
+          "description": "The longitude, latitude and elevation values for the point",
+          "items": {
+            "type": "string"
+          }
+        },
+        "type": {
+          "type": "string",
+          "description": "The GeoJSON type identifier"
+        }
+      }
+    },
+    "Properties": {
+      "title": "Properties",
+      "required": [
+        "modelRunDate",
+        "requestPointDistance",
+        "timeSeries"
+      ],
+      "type": "object",
+      "properties": {
+        "location": {
+          "$ref": "#/$defs/Location"
+        },
+        "modelRunDate": {
+          "type": "string",
+          "description": "The model run date in UTC"
+        },
+        "requestPointDistance": {
+          "type": "number",
+          "description": "The distance from the requested point in metres"
+        },
+        "timeSeries": {
+          "type": "object",
+          "properties": {},
+          "description": "A time step ordered list  of forecast parameters and associated values"
+        }
+      }
+    },
+    "Symbol": {
+      "title": "Symbol",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "Unit": {
+      "title": "Unit",
+      "required": [
+        "label",
+        "symbol"
+      ],
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string",
+          "description": "The name of the unit"
+        },
+        "symbol": {
+          "$ref": "#/$defs/Symbol"
+        }
+      }
+    }
+  }
+}

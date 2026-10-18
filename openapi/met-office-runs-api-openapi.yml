@@ -1,0 +1,189 @@
+openapi: 3.2.0
+info:
+  title: Met Office Runs API
+  contact:
+    name: Data Provisioning Team (DPT)
+    url: https://www.metoffice.gov.uk/about-us/contact
+    email: enquiries@metoffice.gov.uk
+  termsOfService: ''
+  version: '1.0'
+  description: 'Operations tagged Runs across 3 of this provider''s published API definitions: atmosphericmodel_versioned_subscriber.json, met-office-atmospheric-models-openapi.yml, met-office-map-images-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://data.hub.api.metoffice.gov.uk/atmospheric-models/1.0.0
+  description: Base URL stated on the Weather DataHub API documentation page
+- url: https://data.hub.api.metoffice.gov.uk/map-images/1.0.0
+  description: Base URL stated on the Weather DataHub API documentation page
+security:
+- APIKey: []
+tags:
+- name: Runs
+paths:
+  /runs:
+    get:
+      tags:
+      - Runs
+      summary: List all runs
+      description: TODO
+      operationId: getAllRuns
+      parameters:
+      - name: sort
+        in: query
+        description: Optional Sort order for the runs. Valid options are RUN or RUNDATETIME. Default is RUN.
+        schema:
+          type: string
+          enum:
+          - RUN
+          - RUNDATETIME
+      - name: dataSpec
+        in: query
+        description: The data specification to use, only version 1.1.0 is currently supported.
+        schema:
+          type: string
+          enum:
+          - 1.1.0
+          default: 1.1.0
+      - name: Accept
+        in: header
+        description: application/json required here.
+        required: true
+        example: application/json
+        schema:
+          type: string
+      responses:
+        '200':
+          description: All available runs are returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiRunList'
+        '403':
+          description: Invalid API authentication supplied
+          content: {}
+        '406':
+          description: Requested content type not compatible with application/json
+          content: {}
+        '500':
+          description: Internal server error
+          content: {}
+        '503':
+          description: Delivery service unavailable
+          content: {}
+      deprecated: false
+      security:
+      - APIKey: []
+  /runs/{modelId}:
+    get:
+      tags:
+      - Runs
+      summary: List all runs for specific model
+      description: TODO
+      operationId: getModelRuns
+      parameters:
+      - name: modelId
+        in: path
+        description: Identifier of the model for which runs are required
+        required: true
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: Optional Sort order for the runs. Valid options are RUN or RUNDATETIME. Default is RUN.
+        schema:
+          type: string
+          enum:
+          - RUN
+          - RUNDATETIME
+      - name: dataSpec
+        in: query
+        description: The data specification to use, only version 1.1.0 is currently supported.
+        schema:
+          type: string
+          enum:
+          - 1.1.0
+          default: 1.1.0
+      - name: Accept
+        in: header
+        description: application/json required here.
+        required: true
+        example: application/json
+        schema:
+          type: string
+      responses:
+        '200':
+          description: All available runs for specific are returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiRunListForModel'
+        '403':
+          description: Invalid API authentication supplied
+          content: {}
+        '406':
+          description: Requested content type not compatible with application/json
+          content: {}
+        '500':
+          description: Internal server error
+          content: {}
+        '503':
+          description: Delivery service unavailable
+          content: {}
+      deprecated: false
+      security:
+      - APIKey: []
+components:
+  schemas:
+    ApiRunList:
+      title: ApiRunList
+      required:
+      - runs
+      type: object
+      properties:
+        runs:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiRunListForModel'
+    ApiRunListForModel:
+      title: ApiRunListForModel
+      required:
+      - completeRuns
+      - modelId
+      type: object
+      properties:
+        modelId:
+          type: string
+          description: Model identifier
+          example: mo-global
+        completeRuns:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiRunDetails'
+    ApiRunDetails:
+      title: ApiRunDetails
+      required:
+      - run
+      - runDateTime
+      - runFilter
+      type: object
+      properties:
+        run:
+          type: string
+          description: The hour of the run, 00, 01, etc
+          example: '06'
+        runDateTime:
+          type: string
+          description: The actual date and time of the run
+          example: '2021-01-25T06:00:00.000Z'
+        runFilter:
+          type: string
+          description: The actual date and time of the run in the runFilter format used by orders API
+          example: '2021012506'
+  securitySchemes:
+    APIKey:
+      type: apiKey
+      description: The API Key generated with your Subscription in Weather DataHub, this must be set as 'apikey' in your header.
+      name: apikey
+      in: header
+x-refined-from:
+- atmosphericmodel_versioned_subscriber.json
+- met-office-atmospheric-models-openapi.yml
+- met-office-map-images-openapi.yml

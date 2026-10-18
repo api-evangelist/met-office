@@ -1,0 +1,30 @@
+overlay: 1.0.0
+info:
+  title: Met Office Land Observations Public API - API Evangelist overlay
+  version: 1.0.0
+extends: ../openapi/_original/met-office-land-observations-openapi.yml
+x-generated: '2026-10-18'
+x-method: generated
+actions:
+- target: $.info
+  update:
+    x-api-evangelist-profile:
+      provider: met-office
+      generated: '2026-10-18'
+      note: Enhancements captured by API Evangelist; the original contract is unchanged.
+- target: $.paths['/nearest'].get
+  description: Operation has no operationId in the original contract; propose one.
+  update:
+    operationId: getNearestObservationLocation
+- target: $.paths['/nearest'].get
+  update:
+    x-agent-safe: read-only
+    x-idempotent: true
+- target: $.paths['/{geohash}'].get
+  description: Operation has no operationId in the original contract; propose one.
+  update:
+    operationId: getObservationsByGeohash
+- target: $.paths['/{geohash}'].get
+  update:
+    x-agent-safe: read-only
+    x-idempotent: true

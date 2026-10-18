@@ -1,0 +1,103 @@
+openapi: 3.2.0
+info:
+  title: Met Office Nearest API
+  version: v1.0
+  contact:
+    name: Met Office
+    url: https://www.metoffice.gov.uk/about-us/contact
+    email: dpt@metoffice.gov.uk
+  description: 'Operations tagged Nearest across 2 of this provider''s published API definitions: land_obs_subscriber.json, met-office-land-observations-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://data.hub.api.metoffice.gov.uk/observation-land/1
+  description: Base URL stated on the Weather DataHub API documentation page
+security:
+- APIKey: []
+tags:
+- name: Nearest
+paths:
+  /nearest:
+    get:
+      summary: Get nearest observation location
+      description: Given a Geohash or a lat/lon pair, returns land observation location(s).
+      parameters:
+      - name: max
+        in: query
+        description: Maximum results to return. Defaults to 1 if omitted. Minimum 1, Maximum 5.
+        required: false
+        schema:
+          maximum: 5
+          minimum: 1
+          type: integer
+      - name: geohash
+        in: query
+        description: “The Geohash to use as query term. Must be alpha-numeric. All geohashes are valid. Must be a maximum of 6 characters long.
+        required: false
+        schema:
+          type: string
+      - name: lat
+        in: query
+        description: The latitude value to use as query term. Must be at most 2 decimal places. Must be used alongside `lon`. Must be between -90 and 90.
+        required: false
+        schema:
+          maximum: 90
+          minimum: -90
+          type: number
+          example: 50.72
+      - name: lon
+        in: query
+        description: The longitude value to use as query term. Must be at most 2 decimal places. Must be used alongside `lat`. Must be between -180 and 180.
+        required: false
+        schema:
+          maximum: 180
+          minimum: -180
+          type: number
+          example: -3.53
+      responses:
+        '200':
+          description: Nearest Observation search results
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  description: ''
+                  properties:
+                    geohash:
+                      type: string
+                      description: Geohash of the observation location
+                      example: gcj8ds
+                    area:
+                      type: string
+                      description: Location area
+                      example: Devon
+                    region:
+                      type:
+                      - string
+                      - 'null'
+                      description: Region code for UK locations
+                      example: sw
+                    country:
+                      type:
+                      - string
+                      - 'null'
+                      description: The country of the location
+                      example: England
+                    olson_time_zone:
+                      type: string
+                      description: Olson time zone string of location
+                      example: Europe/London
+      tags:
+      - Nearest
+      operationId: getNearest
+      x-operation-id-source: derived
+components:
+  securitySchemes:
+    APIKey:
+      type: apiKey
+      description: The API Key generated with your Subscription in Weather DataHub, this must be set as 'apikey' in your header.
+      name: apikey
+      in: header
+x-refined-from:
+- land_obs_subscriber.json
+- met-office-land-observations-openapi.yml

@@ -1,0 +1,86 @@
+overlay: 1.0.0
+info:
+  title: Met Office Site Specific Blended Probabilistic Forecast - API Evangelist overlay
+  version: 1.0.0
+extends: ../openapi/_original/met-office-blended-probabilistic-forecast-openapi.yml
+x-generated: '2026-10-18'
+x-method: generated
+actions:
+- target: $.info
+  update:
+    x-api-evangelist-profile:
+      provider: met-office
+      generated: '2026-10-18'
+      note: Enhancements captured by API Evangelist; the original contract is unchanged.
+- target: $.paths['/'].get
+  description: Operation has no operationId in the original contract; propose one.
+  update:
+    operationId: getLandingPage
+- target: $.paths['/'].get
+  update:
+    x-agent-safe: read-only
+    x-idempotent: true
+- target: $.paths['/collections'].get
+  description: Operation has no operationId in the original contract; propose one.
+  update:
+    operationId: listCollections
+- target: $.paths['/collections'].get
+  update:
+    x-agent-safe: read-only
+    x-idempotent: true
+- target: $.paths['/collections/{collection_name}'].get
+  description: Operation has no operationId in the original contract; propose one.
+  update:
+    operationId: getCollection
+- target: $.paths['/collections/{collection_name}'].get
+  update:
+    x-agent-safe: read-only
+    x-idempotent: true
+- target: $.paths['/collections/{collection_name}/instances'].get
+  description: Operation has no operationId in the original contract; propose one.
+  update:
+    operationId: listCollectionInstances
+- target: $.paths['/collections/{collection_name}/instances'].get
+  update:
+    x-agent-safe: read-only
+    x-idempotent: true
+- target: $.paths['/collections/{collection_name}/instances/{instance_id}'].get
+  description: Operation has no operationId in the original contract; propose one.
+  update:
+    operationId: getCollectionInstance
+- target: $.paths['/collections/{collection_name}/instances/{instance_id}'].get
+  update:
+    x-agent-safe: read-only
+    x-idempotent: true
+- target: $.paths['/collections/{collection_name}/instances/{instance_id}/locations'].get
+  description: Operation has no operationId in the original contract; propose one.
+  update:
+    operationId: listInstanceLocations
+- target: $.paths['/collections/{collection_name}/instances/{instance_id}/locations'].get
+  update:
+    x-agent-safe: read-only
+    x-idempotent: true
+- target: $.paths['/collections/{collection_name}/instances/{instance_id}/locations/{location_id}'].get
+  description: Operation has no operationId in the original contract; propose one.
+  update:
+    operationId: getLocationForecast
+- target: $.paths['/collections/{collection_name}/instances/{instance_id}/locations/{location_id}'].get
+  update:
+    x-agent-safe: read-only
+    x-idempotent: true
+- target: $.paths['/collections/{collection_name}/instances/{instance_id}/position'].get
+  description: Operation has no operationId in the original contract; propose one.
+  update:
+    operationId: getNearestPositionForecast
+- target: $.paths['/collections/{collection_name}/instances/{instance_id}/position'].get
+  update:
+    x-agent-safe: read-only
+    x-idempotent: true
+- target: $.paths['/conformance'].get
+  description: Operation has no operationId in the original contract; propose one.
+  update:
+    operationId: getConformance
+- target: $.paths['/conformance'].get
+  update:
+    x-agent-safe: read-only
+    x-idempotent: true

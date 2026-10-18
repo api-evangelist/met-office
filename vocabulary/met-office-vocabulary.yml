@@ -1,0 +1,246 @@
+generated: '2026-10-18'
+method: derived
+generator: derive-vocabulary.py
+source:
+- openapi/met-office-atmospheric-models-openapi.yml
+- openapi/met-office-blended-probabilistic-forecast-openapi.yml
+- openapi/met-office-land-observations-openapi.yml
+- openapi/met-office-map-images-openapi.yml
+- openapi/met-office-nswws-warnings-openapi.yml
+vocabulary:
+  name: Met Office Domain Vocabulary
+  description: 'Terms declared by Met Office''s own API contract: its resource groups, objects and enumerations, with the contract''s definitions.
+    Derived, not authored.'
+  version: '2026-10-18'
+  terms:
+  - term: Capabilities
+    definition: Essential characteristics of the information available from the API.
+    tags:
+    - Resource Group
+    source: openapi/met-office-blended-probabilistic-forecast-openapi.yml
+  - term: Collection Metadata
+    definition: Description of the information available from the collections.
+    tags:
+    - Resource Group
+    source: openapi/met-office-blended-probabilistic-forecast-openapi.yml
+  - term: Collection Data
+    definition: Available collection data queries.
+    tags:
+    - Resource Group
+    source: openapi/met-office-blended-probabilistic-forecast-openapi.yml
+  - term: Instance Metadata
+    definition: Description of the information available from instances.
+    tags:
+    - Resource Group
+    source: openapi/met-office-blended-probabilistic-forecast-openapi.yml
+  - term: Instance Data
+    definition: Available instance data queries.
+    tags:
+    - Resource Group
+    source: openapi/met-office-blended-probabilistic-forecast-openapi.yml
+  - term: ApiAxisExtent
+    definition: 'Object declared by the contract with fields: label, lowerBound, uomLabel, upperBound.'
+    tags:
+    - Object
+    source: openapi/met-office-atmospheric-models-openapi.yml#/components/schemas/ApiAxisExtent
+  - term: ApiOrderAxes
+    definition: 'Object declared by the contract with fields: x, y.'
+    tags:
+    - Object
+    source: openapi/met-office-atmospheric-models-openapi.yml#/components/schemas/ApiOrderAxes
+  - term: ApiOrderDetails
+    definition: 'Object declared by the contract with fields: orderDetails.'
+    tags:
+    - Object
+    source: openapi/met-office-atmospheric-models-openapi.yml#/components/schemas/ApiOrderDetails
+  - term: ApiOrderDetailsOrderDetails
+    definition: Details of the order and a list of available files
+    tags:
+    - Object
+    source: openapi/met-office-atmospheric-models-openapi.yml#/components/schemas/ApiOrderDetailsOrderDetails
+  - term: ApiOrderFile
+    definition: 'Object declared by the contract with fields: fileId, surfaceId, levels, runDateTime, run, region, parameters, timesteps.'
+    tags:
+    - Object
+    source: openapi/met-office-atmospheric-models-openapi.yml#/components/schemas/ApiOrderFile
+  - term: ApiOrderFileDetails
+    definition: 'Object declared by the contract with fields: fileDetails.'
+    tags:
+    - Object
+    source: openapi/met-office-atmospheric-models-openapi.yml#/components/schemas/ApiOrderFileDetails
+  - term: ApiOrderFileDetailsFileDetails
+    definition: 'Object declared by the contract with fields: file, parameterDetails.'
+    tags:
+    - Object
+    source: openapi/met-office-atmospheric-models-openapi.yml#/components/schemas/ApiOrderFileDetailsFileDetails
+  - term: ApiOrderInfo
+    definition: 'Object declared by the contract with fields: description, format, modelId, name, orderId, regions, requiredLatestRuns, timesteps.'
+    tags:
+    - Object
+    source: openapi/met-office-atmospheric-models-openapi.yml#/components/schemas/ApiOrderInfo
+  - term: ApiOrderInfoSummary
+    definition: 'Object declared by the contract with fields: orderId, name, modelId, format.'
+    tags:
+    - Object
+    source: openapi/met-office-atmospheric-models-openapi.yml#/components/schemas/ApiOrderInfoSummary
+  - term: ApiOrderList
+    definition: 'Object declared by the contract with fields: orders.'
+    tags:
+    - Object
+    source: openapi/met-office-atmospheric-models-openapi.yml#/components/schemas/ApiOrderList
+  - term: ApiParameterAxes
+    definition: 'Object declared by the contract with fields: t, z.'
+    tags:
+    - Object
+    source: openapi/met-office-atmospheric-models-openapi.yml#/components/schemas/ApiParameterAxes
+  - term: ApiParameterDetails
+    definition: 'Object declared by the contract with fields: parameterId, extent.'
+    tags:
+    - Object
+    source: openapi/met-office-atmospheric-models-openapi.yml#/components/schemas/ApiParameterDetails
+  - term: ApiRegionDetails
+    definition: 'Object declared by the contract with fields: name, extent.'
+    tags:
+    - Object
+    source: openapi/met-office-atmospheric-models-openapi.yml#/components/schemas/ApiRegionDetails
+  - term: ApiRunList
+    definition: 'Object declared by the contract with fields: runs.'
+    tags:
+    - Object
+    source: openapi/met-office-atmospheric-models-openapi.yml#/components/schemas/ApiRunList
+  - term: ApiRunListForModel
+    definition: 'Object declared by the contract with fields: modelId, completeRuns.'
+    tags:
+    - Object
+    source: openapi/met-office-atmospheric-models-openapi.yml#/components/schemas/ApiRunListForModel
+  - term: ApiRunDetails
+    definition: 'Object declared by the contract with fields: run, runDateTime, runFilter.'
+    tags:
+    - Object
+    source: openapi/met-office-atmospheric-models-openapi.yml#/components/schemas/ApiRunDetails
+  - term: File
+    definition: 'Object declared by the contract with fields: absolute, absoluteFile, absolutePath, canonicalFile, canonicalPath, directory, file,
+      freeSpace, hidden, name, parent, parentFile. (3 more)'
+    tags:
+    - Object
+    source: openapi/met-office-atmospheric-models-openapi.yml#/components/schemas/File
+  - term: Server400
+    definition: 'Object declared by the contract with fields: httpCode, httpMessage, moreInformation.'
+    tags:
+    - Object
+    source: openapi/met-office-atmospheric-models-openapi.yml#/components/schemas/Server400
+  - term: Server401
+    definition: 'Object declared by the contract with fields: httpCode, httpMessage, moreInformation.'
+    tags:
+    - Object
+    source: openapi/met-office-atmospheric-models-openapi.yml#/components/schemas/Server401
+  - term: Server403
+    definition: 'Object declared by the contract with fields: httpCode, httpMessage, moreInformation.'
+    tags:
+    - Object
+    source: openapi/met-office-atmospheric-models-openapi.yml#/components/schemas/Server403
+  - term: Server404
+    definition: 'Object declared by the contract with fields: httpCode, httpMessage, moreInformation.'
+    tags:
+    - Object
+    source: openapi/met-office-atmospheric-models-openapi.yml#/components/schemas/Server404
+  - term: Server406
+    definition: 'Object declared by the contract with fields: httpCode, httpMessage, moreInformation.'
+    tags:
+    - Object
+    source: openapi/met-office-atmospheric-models-openapi.yml#/components/schemas/Server406
+  - term: Server429
+    definition: 'Object declared by the contract with fields: httpCode, httpMessage, moreInformation.'
+    tags:
+    - Object
+    source: openapi/met-office-atmospheric-models-openapi.yml#/components/schemas/Server429
+  - term: Server500
+    definition: 'Object declared by the contract with fields: httpCode, httpMessage, moreInformation.'
+    tags:
+    - Object
+    source: openapi/met-office-atmospheric-models-openapi.yml#/components/schemas/Server500
+  - term: Server503
+    definition: 'Object declared by the contract with fields: length.'
+    tags:
+    - Object
+    source: openapi/met-office-atmospheric-models-openapi.yml#/components/schemas/Server503
+  - term: MODEL3b85ce
+    definition: 'Object declared by the contract with fields: collections, links.'
+    tags:
+    - Object
+    source: openapi/met-office-blended-probabilistic-forecast-openapi.yml#/components/schemas/MODEL3b85ce
+  - term: MODEL5c21c2
+    definition: 'Object declared by the contract with fields: description, links, title.'
+    tags:
+    - Object
+    source: openapi/met-office-blended-probabilistic-forecast-openapi.yml#/components/schemas/MODEL5c21c2
+  - term: MODEL682434
+    definition: 'Object declared by the contract with fields: conformsTo.'
+    tags:
+    - Object
+    source: openapi/met-office-blended-probabilistic-forecast-openapi.yml#/components/schemas/MODEL682434
+  - term: collection
+    definition: 'Object declared by the contract with fields: id, links, output_formats, title.'
+    tags:
+    - Object
+    source: openapi/met-office-blended-probabilistic-forecast-openapi.yml#/components/schemas/collection
+  - term: error
+    definition: 'Object declared by the contract with fields: message.'
+    tags:
+    - Object
+    source: openapi/met-office-blended-probabilistic-forecast-openapi.yml#/components/schemas/error
+  - term: link
+    definition: 'Object declared by the contract with fields: href, hrefLang, rel, title, type.'
+    tags:
+    - Object
+    source: openapi/met-office-blended-probabilistic-forecast-openapi.yml#/components/schemas/link
+  - term: Feature
+    definition: A feature object with mandatory geometry and properties fields
+    tags:
+    - Object
+    source: openapi/met-office-site-specific-openapi.yml#/components/schemas/Feature
+  - term: Location
+    definition: 'Object declared by the contract with fields: licence, name.'
+    tags:
+    - Object
+    source: openapi/met-office-site-specific-openapi.yml#/components/schemas/Location
+  - term: ParameterDetails
+    definition: 'Object declared by the contract with fields: description, type, unit.'
+    tags:
+    - Object
+    source: openapi/met-office-site-specific-openapi.yml#/components/schemas/ParameterDetails
+  - term: Point
+    definition: 'Object declared by the contract with fields: coordinates, type.'
+    tags:
+    - Object
+    source: openapi/met-office-site-specific-openapi.yml#/components/schemas/Point
+  - term: Properties
+    definition: 'Object declared by the contract with fields: location, modelRunDate, requestPointDistance, timeSeries.'
+    tags:
+    - Object
+    source: openapi/met-office-site-specific-openapi.yml#/components/schemas/Properties
+  - term: SpotForecastFeatureCollection
+    definition: A feature collection object, must have a member array of features
+    tags:
+    - Object
+    source: openapi/met-office-site-specific-openapi.yml#/components/schemas/SpotForecastFeatureCollection
+  - term: Symbol
+    definition: 'Object declared by the contract with fields: type, value.'
+    tags:
+    - Object
+    source: openapi/met-office-site-specific-openapi.yml#/components/schemas/Symbol
+  - term: TimeSeries
+    definition: 'Object declared by the contract with fields: data, time.'
+    tags:
+    - Object
+    source: openapi/met-office-site-specific-openapi.yml#/components/schemas/TimeSeries
+  - term: Unit
+    definition: 'Object declared by the contract with fields: label, symbol.'
+    tags:
+    - Object
+    source: openapi/met-office-site-specific-openapi.yml#/components/schemas/Unit
+  - term: VndError
+    definition: 'Object declared by the contract with fields: logref, message.'
+    tags:
+    - Object
+    source: openapi/met-office-site-specific-openapi.yml#/components/schemas/VndError

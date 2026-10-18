@@ -1,0 +1,13 @@
+generated: '2026-10-18'
+method: searched
+source: https://datahub.metoffice.gov.uk/docs
+description: Free trial plans available for testing with sample data and download code examples
+docs:
+- https://datahub.metoffice.gov.uk/docs/f/category/atmospheric/sample-data
+- https://datahub.metoffice.gov.uk/docs/f/category/atmospheric/type/atmospheric/sample-download-code
+- https://datahub.metoffice.gov.uk/docs/f/category/site-specific/type/site-specific/sample-data
+- https://datahub.metoffice.gov.uk/docs/f/category/site-specific/type/site-specific/sample-download-code
+- https://datahub.metoffice.gov.uk/docs/g/category/warnings/type/nswws/sample-data
+- https://datahub.metoffice.gov.uk/docs/o/category/observations/type/land-observations/sample-data
+- https://datahub.metoffice.gov.uk/docs/f/category/map-images/sample-data
+- https://datahub.metoffice.gov.uk/docs/f/category/map-images/type/map-images/sample-download-code

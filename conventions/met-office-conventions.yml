@@ -1,0 +1,21 @@
+generated: '2026-10-18'
+method: derived
+source: openapi/met-office-atmospheric-models-openapi.yml, openapi/met-office-blended-probabilistic-forecast-openapi.yml,
+  openapi/met-office-land-observations-openapi.yml, openapi/met-office-map-images-openapi.yml,
+  openapi/met-office-nswws-warnings-openapi.yml, openapi/met-office-site-specific-openapi.yml
+idempotency:
+  coverage: none
+  description: No idempotency mechanism documented
+pagination:
+  style: none
+  description: No pagination patterns found in the specifications
+error_envelope:
+  format: custom
+  schema: VndError
+  description: Custom error envelope format used across APIs
+versioning:
+  style: uri-path
+  description: Version included in URI path (e.g., /v0, /1.0.0)
+reversibility:
+  coverage: na
+  description: Read-only weather data APIs with no write operations to reverse

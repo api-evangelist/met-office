@@ -1,0 +1,117 @@
+openapi: 3.2.0
+info:
+  title: Met Office Land Observations Public API
+  version: v1.0
+  contact:
+    name: Met Office
+    url: https://www.metoffice.gov.uk/about-us/contact
+    email: dpt@metoffice.gov.uk
+  description: 'Operations tagged Met Office Land Observations Public API across 2 of this provider''s published API definitions: land_obs_subscriber.json, met-office-land-observations-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://data.hub.api.metoffice.gov.uk/observation-land/1
+  description: Base URL stated on the Weather DataHub API documentation page
+security:
+- APIKey: []
+tags:
+- name: Met Office Land Observations Public API
+paths:
+  /{geohash}:
+    get:
+      summary: Get weather observations by geohash
+      description: Returns a list of weather observations for a specified geohash.
+      parameters:
+      - name: geohash
+        in: path
+        description: “A geohash representing a location supported by the API.
+        required: true
+        schema:
+          type: string
+          example: gcj8ds
+      responses:
+        '200':
+          description: A JSON object representing location Observation data.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  description: Array containing location observation data for requested geohash.
+                  properties:
+                    datetime:
+                      type: string
+                      description: Date of the observation.
+                      example: '2022-12-14T11:00:00Z'
+                    humidity:
+                      type:
+                      - integer
+                      - 'null'
+                      description: Probability as a percentage of 100.
+                      example: 70
+                    mslp:
+                      type:
+                      - integer
+                      - 'null'
+                      description: Mean surface level pressure in hPA.
+                      example: 991
+                    pressure_tendency:
+                      type:
+                      - string
+                      - 'null'
+                      description: Pressure tendency representing Rising, Falling or Steady.
+                      example: R
+                    temperature:
+                      type:
+                      - number
+                      - 'null'
+                      format: float
+                      description: Air temperature in °C.
+                      example: 10
+                    visibility:
+                      type:
+                      - integer
+                      - 'null'
+                      description: Visibility in metres.
+                      example: 2000
+                    weather_code:
+                      type:
+                      - integer
+                      - 'null'
+                      description: Numerical code for the weather symbol.
+                      example: 12
+                    wind_direction:
+                      type:
+                      - string
+                      - 'null'
+                      description: Direction the wind is travelling from in 16 point compass notation.
+                      example: SWW
+                    wind_gust:
+                      type:
+                      - number
+                      - 'null'
+                      format: float
+                      description: Wind gust speed in m/s.
+                      example: 2
+                    wind_speed:
+                      type:
+                      - number
+                      - 'null'
+                      format: float
+                      description: Wind speed in m/s.
+                      example: 13.05
+        '404':
+          description: Location not found or no data available
+      tags:
+      - Met Office Land Observations Public API
+      operationId: getByGeohash
+      x-operation-id-source: derived
+components:
+  securitySchemes:
+    APIKey:
+      type: apiKey
+      description: The API Key generated with your Subscription in Weather DataHub, this must be set as 'apikey' in your header.
+      name: apikey
+      in: header
+x-refined-from:
+- land_obs_subscriber.json
+- met-office-land-observations-openapi.yml

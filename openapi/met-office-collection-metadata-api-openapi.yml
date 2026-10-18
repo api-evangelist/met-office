@@ -1,0 +1,133 @@
+openapi: 3.2.0
+info:
+  title: Met Office Collection Metadata API
+  version: 2.0.0
+  contact:
+    name: Data Provisioning Team (DPT)
+    url: https://www.metoffice.gov.uk/about-us/contact
+    email: enquiries@metoffice.gov.uk
+  description: 'Operations tagged Collection Metadata across 2 of this provider''s published API definitions: mo-site-specific-blended-probabilistic-forecast-v2_subscriber.json, met-office-blended-probabilistic-forecast-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://data.hub.api.metoffice.gov.uk/mo-blended-prob-forecast-feature-svc/2.0.0
+  description: Base URL stated on the Weather DataHub API documentation page
+security:
+- api_key: []
+tags:
+- name: Collection Metadata
+  description: Description of the information available from the collections.
+paths:
+  /collections:
+    get:
+      tags:
+      - Collection Metadata
+      summary: Available collections
+      description: Lists the available collections from the Feature Service API.
+      responses:
+        '200':
+          description: Lists of links and collections
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MODEL3b85ce'
+        '500':
+          description: An unexpected error has occurred within the Feature service
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      security:
+      - api_key: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+      operationId: getCollections
+      x-operation-id-source: derived
+  /collections/{collection_name}:
+    get:
+      tags:
+      - Collection Metadata
+      summary: List query types supported by the feature service
+      description: This will provide information about the query types that are supported by the feature service.
+      parameters:
+      - name: collection_name
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Links and details of the feature service
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/collection'
+        '500':
+          description: An unexpected error has occurred within the Feature Service
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      security:
+      - api_key: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+      operationId: getCollectionsByCollectionName
+      x-operation-id-source: derived
+components:
+  schemas:
+    MODEL3b85ce:
+      type: object
+      properties:
+        collections:
+          $ref: '#/components/schemas/collections'
+        links:
+          $ref: '#/components/schemas/links'
+    links:
+      type: array
+      items:
+        $ref: '#/components/schemas/link'
+    error:
+      type: object
+      properties:
+        message:
+          type: string
+    collections:
+      type: array
+      items:
+        $ref: '#/components/schemas/collection'
+    collection:
+      type: object
+      properties:
+        id:
+          type: string
+        links:
+          $ref: '#/components/schemas/links'
+        output_formats:
+          type: array
+          items:
+            type: string
+        title:
+          type: string
+    link:
+      type: object
+      properties:
+        href:
+          type: string
+        hrefLang:
+          type: string
+        rel:
+          type: string
+        title:
+          type: string
+        type:
+          type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      description: The API Key generated with your Subscription in Weather DataHub, this must be set as 'apikey' in your header.
+      name: apikey
+      in: header
+x-refined-from:
+- mo-site-specific-blended-probabilistic-forecast-v2_subscriber.json
+- met-office-blended-probabilistic-forecast-openapi.yml

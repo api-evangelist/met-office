@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/met-office/main/json-schema/met-office-api-order-list-schema.json",
+  "title": "ApiOrderList",
+  "x-generated": "2026-10-18",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/met-office-atmospheric-models-openapi.yml#/components/schemas/ApiOrderList",
+  "required": [
+    "orders"
+  ],
+  "type": "object",
+  "properties": {
+    "orders": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ApiOrderInfo"
+      }
+    }
+  },
+  "$defs": {
+    "ApiAxisExtent": {
+      "title": "ApiAxisExtent",
+      "required": [
+        "label",
+        "lowerBound",
+        "uomLabel",
+        "upperBound"
+      ],
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "lowerBound": {
+          "type": "string"
+        },
+        "uomLabel": {
+          "type": "string"
+        },
+        "upperBound": {
+          "type": "string"
+        }
+      }
+    },
+    "ApiOrderAxes": {
+      "title": "ApiOrderAxes",
+      "required": [
+        "x",
+        "y"
+      ],
+      "type": "object",
+      "properties": {
+        "x": {
+          "$ref": "#/$defs/ApiAxisExtent"
+        },
+        "y": {
+          "$ref": "#/$defs/ApiAxisExtent"
+        }
+      }
+    },
+    "ApiOrderInfo": {
+      "title": "ApiOrderInfo",
+      "required": [
+        "format",
+        "modelId",
+        "name",
+        "orderId",
+        "requiredLatestRuns"
+      ],
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "A description of the order"
+        },
+        "format": {
+          "type": "string",
+          "description": "Format of the returned data file",
+          "enum": [
+            "GRIB2"
+          ]
+        },
+        "modelId": {
+          "type": "string",
+          "description": "Model used to generate the data"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name assigned to the order by the user"
+        },
+        "orderId": {
+          "type": "string",
+          "description": "order identifier"
+        },
+        "regions": {
+          "type": "array",
+          "description": "Geographical regions for which data will be included",
+          "items": {
+            "$ref": "#/$defs/ApiRegionDetails"
+          }
+        },
+        "requiredLatestRuns": {
+          "type": "array",
+          "description": "List of model run times for which latest data will be available. Only the last run for each time will be available.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "timesteps": {
+          "type": "array",
+          "description": "Timesteps, relative to run time, for which data will be returned if available",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ApiRegionDetails": {
+      "title": "ApiRegionDetails",
+      "required": [
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the region"
+        },
+        "extent": {
+          "$ref": "#/$defs/ApiOrderAxes"
+        }
+      }
+    }
+  }
+}

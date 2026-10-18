@@ -1,0 +1,44 @@
+generated: '2026-10-18'
+method: searched
+source: https://datahub.metoffice.gov.uk/docs, https://registry.npmjs.org, https://pypi.org
+packages:
+- name: metoffice-weather-datahub
+  registry: pypi
+  url: https://pypi.org/project/metoffice-weather-datahub/
+  language: python
+  official: false
+  version: '1.2.3'
+  published: '2026-10-18'
+  note: Unofficial Python wrapper for Met Office Weather DataHub API by Open Climate Fix
+- name: metoffice-mcp
+  registry: npm
+  url: https://www.npmjs.com/package/metoffice-mcp
+  language: javascript
+  official: false
+  version: '1.0.1'
+  published: '2026-10-18'
+  note: MCP server for UK Met Office DataHub
+- name: metoffice-fetch
+  registry: npm
+  url: https://www.npmjs.com/package/metoffice-fetch
+  language: javascript
+  official: false
+  version: '1.0.3'
+  published: '2020-05-22'
+  note: Simple package to fetch data from Met Office API
+- name: metoffice-datapoint
+  registry: npm
+  url: https://www.npmjs.com/package/metoffice-datapoint
+  language: javascript
+  official: false
+  version: '1.7.0'
+  published: '2022-01-01'
+  note: JavaScript API for Met Office DataPoint API
+- name: mo-data-services-example-code
+  registry: github
+  url: https://github.com/MetOffice/mo-data-services-example-code
+  language: multiple
+  official: true
+  version: null
+  published: '2017-10-30'
+  note: Official Met Office example client access code for data services

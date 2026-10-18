@@ -1,0 +1,13 @@
+generated: '2026-10-18'
+method: searched
+source: https://datahub.metoffice.gov.uk/pricing/atmospheric
+name: Met Office rate limits
+limits:
+- name: Daily API request limit
+  limit_text: Daily request limit of 130,000, which resets at 00:00 UTC
+  limit: 130000
+  window: 1 day
+  scope: per-api-key
+  plan: All paid plans
+  description: Daily request limit for API calls, resets at 00:00 UTC
+  endpoint: All endpoints

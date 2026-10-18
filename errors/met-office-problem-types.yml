@@ -1,0 +1,114 @@
+generated: '2026-10-18'
+method: derived
+generator: derive-problem-types.py
+source:
+- openapi/met-office-atmospheric-models-openapi.yml
+- openapi/met-office-blended-probabilistic-forecast-openapi.yml
+- openapi/met-office-land-observations-openapi.yml
+- openapi/met-office-map-images-openapi.yml
+- openapi/met-office-nswws-warnings-openapi.yml
+- openapi/met-office-site-specific-openapi.yml
+format: custom
+envelope:
+  media_type: application/json
+  schema: VndError
+coverage:
+  operations: 28
+  statuses_declared: 10
+problems:
+- status: 400
+  title: Bad Request
+  description: Your request is incorrectly formed so the API is unable to process it. Please check that your URL
+    and headers are correct.
+  operations: 11
+  media_types:
+  - application/json
+  - application/x-grib
+  - image/png
+  schema: Server400
+- status: 401
+  title: Unauthorized
+  description: You have not sent any authentication ('apikey' header) or your authentication details (API Key) are
+    incorrect.
+  operations: 8
+  media_types:
+  - application/json
+  - application/x-grib
+  - image/png
+  schema: Server401
+- status: 403
+  title: Forbidden
+  description: You sent correct authentication details (api key), but you do not have permissions to access this
+    resource. Please check that your Applicati
+  operations: 17
+  media_types:
+  - application/json
+  - application/x-grib
+  - image/png
+  schema: Server403
+- status: 404
+  title: Not Found
+  description: Resource not found. You have requested a URL that the service does not have, please check that you
+    have sent a correct URL.
+  operations: 14
+  media_types:
+  - application/json
+  - application/x-grib
+  - image/png
+  schema: Server404
+- status: 405
+  title: Method Not Allowed
+  description: The server could not service the request because it does not support the requested HTTP action -
+    only get requests are supported
+  operations: 3
+  media_types:
+  - application/json
+  schema: VndError
+- status: 406
+  title: Not Acceptable
+  description: You requested a resource format that cannot be supplied. For all endpoints, your Accept header should
+    contain application/json except when r
+  operations: 11
+  media_types:
+  - application/json
+  - application/x-grib
+  - image/png
+  schema: Server406
+- status: 415
+  title: Unsupported Media Type
+  description: The server could not service the request because the media type requested is not supported - this
+    service only exposes json data
+  operations: 3
+  media_types:
+  - application/json
+  schema: VndError
+- status: 429
+  title: Too Many Requests
+  description: You sent too many requests for the current period and have now been blocked from making any further
+    calls to the service. See details of you
+  operations: 11
+  media_types:
+  - application/json
+  - application/x-grib
+  - image/png
+  schema: Server429
+- status: 500
+  title: Internal Server Error
+  description: Something went wrong on the server which is not your fault. Please retry your request again. If you
+    continue to experience this error then p
+  operations: 23
+  media_types:
+  - application/json
+  - application/x-grib
+  - image/png
+  schema: error
+- status: 503
+  title: Service Unavailable
+  description: The server is temporarily overloaded. Please retry your request again. If you continue to experience
+    this error then please report the probl
+  operations: 11
+  media_types:
+  - application/json
+  - application/x-grib
+  - image/png
+  schema: Server503

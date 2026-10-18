@@ -1,0 +1,311 @@
+name: Met Office MCP server (candidate)
+type: MCPServer
+generated: '2026-10-18'
+method: derived
+source:
+- https://raw.githubusercontent.com/api-evangelist/met-office/refs/heads/main/openapi/met-office-atmospheric-models-openapi.yml
+- https://raw.githubusercontent.com/api-evangelist/met-office/refs/heads/main/openapi/met-office-blended-probabilistic-forecast-openapi.yml
+- https://raw.githubusercontent.com/api-evangelist/met-office/refs/heads/main/openapi/met-office-land-observations-openapi.yml
+- https://raw.githubusercontent.com/api-evangelist/met-office/refs/heads/main/openapi/met-office-map-images-openapi.yml
+- https://raw.githubusercontent.com/api-evangelist/met-office/refs/heads/main/openapi/met-office-nswws-warnings-openapi.yml
+- https://raw.githubusercontent.com/api-evangelist/met-office/refs/heads/main/openapi/met-office-site-specific-openapi.yml
+status: candidate
+description: No official Met Office MCP server was found (web search 2026-10-18 surfaced only third-party community servers on LobeHub that wrap Weather DataHub with a MET_OFFICE_API_KEY; not provider-published).
+  datahub.metoffice.gov.uk answers 200 HTML for every path (SPA catch-all), so /.well-known/mcp.json there is not a real document; www.metoffice.gov.uk/.well-known/mcp.json returned 404. This is a candidate
+  tool list derived one-tool-per-operation from the six Weather DataHub OpenAPI contracts.
+deployment:
+  mode: none
+  auth: api-key
+  verified: derived
+auth:
+  type: apiKey
+  in: header
+  name: apikey
+  note: Weather DataHub subscription API key, per every contract securityScheme.
+probes:
+- url: https://www.metoffice.gov.uk/.well-known/mcp.json
+  status: 404
+- url: https://datahub.metoffice.gov.uk/.well-known/mcp.json
+  status: 200
+  note: SPA catch-all HTML, not JSON
+tools:
+- name: atmospheric-models.getOrders
+  operation:
+    method: GET
+    path: /orders
+    operationId: getOrders
+    proposedOperationId: null
+  description: List all orders visible to current user.
+  api: Atmospheric Model
+  baseURL: https://data.hub.api.metoffice.gov.uk/atmospheric-models/1.0.0
+  readOnly: true
+- name: atmospheric-models.getOrderLatest
+  operation:
+    method: GET
+    path: /orders/{orderId}/latest
+    operationId: getOrderLatest
+    proposedOperationId: null
+  description: Provide a list of the latest available data files for the specified order.
+  api: Atmospheric Model
+  baseURL: https://data.hub.api.metoffice.gov.uk/atmospheric-models/1.0.0
+  readOnly: true
+- name: atmospheric-models.getOrderLatestFileDetails
+  operation:
+    method: GET
+    path: /orders/{orderId}/latest/{fileId}
+    operationId: getOrderLatestFileDetails
+    proposedOperationId: null
+  description: Provide the details of a specific file that can be obtained for the latest available data.
+  api: Atmospheric Model
+  baseURL: https://data.hub.api.metoffice.gov.uk/atmospheric-models/1.0.0
+  readOnly: true
+- name: atmospheric-models.getOrderLatestFileData
+  operation:
+    method: GET
+    path: /orders/{orderId}/latest/{fileId}/data
+    operationId: getOrderLatestFileData
+    proposedOperationId: null
+  description: Gets the actual data for a specific file that can be obtained for the latest available data.
+  api: Atmospheric Model
+  baseURL: https://data.hub.api.metoffice.gov.uk/atmospheric-models/1.0.0
+  readOnly: true
+- name: atmospheric-models.getAllRuns
+  operation:
+    method: GET
+    path: /runs
+    operationId: getAllRuns
+    proposedOperationId: null
+  description: List all runs
+  api: Atmospheric Model
+  baseURL: https://data.hub.api.metoffice.gov.uk/atmospheric-models/1.0.0
+  readOnly: true
+- name: atmospheric-models.getModelRuns
+  operation:
+    method: GET
+    path: /runs/{modelId}
+    operationId: getModelRuns
+    proposedOperationId: null
+  description: List all runs for specific model
+  api: Atmospheric Model
+  baseURL: https://data.hub.api.metoffice.gov.uk/atmospheric-models/1.0.0
+  readOnly: true
+- name: blended-probabilistic-forecast.getLandingPage
+  operation:
+    method: GET
+    path: /
+    operationId: null
+    proposedOperationId: getLandingPage
+  description: Landing page of Feature API
+  api: Met Office Site Specific Blended Probabilistic Forecast
+  baseURL: https://data.hub.api.metoffice.gov.uk/mo-blended-prob-forecast-feature-svc/2.0.0
+  readOnly: true
+- name: blended-probabilistic-forecast.listCollections
+  operation:
+    method: GET
+    path: /collections
+    operationId: null
+    proposedOperationId: listCollections
+  description: Available collections.
+  api: Met Office Site Specific Blended Probabilistic Forecast
+  baseURL: https://data.hub.api.metoffice.gov.uk/mo-blended-prob-forecast-feature-svc/2.0.0
+  readOnly: true
+- name: blended-probabilistic-forecast.getCollection
+  operation:
+    method: GET
+    path: /collections/{collection_name}
+    operationId: null
+    proposedOperationId: getCollection
+  description: List query types supported by the feature service.
+  api: Met Office Site Specific Blended Probabilistic Forecast
+  baseURL: https://data.hub.api.metoffice.gov.uk/mo-blended-prob-forecast-feature-svc/2.0.0
+  readOnly: true
+- name: blended-probabilistic-forecast.listCollectionInstances
+  operation:
+    method: GET
+    path: /collections/{collection_name}/instances
+    operationId: null
+    proposedOperationId: listCollectionInstances
+  description: Available instances for this collection.
+  api: Met Office Site Specific Blended Probabilistic Forecast
+  baseURL: https://data.hub.api.metoffice.gov.uk/mo-blended-prob-forecast-feature-svc/2.0.0
+  readOnly: true
+- name: blended-probabilistic-forecast.getCollectionInstance
+  operation:
+    method: GET
+    path: /collections/{collection_name}/instances/{instance_id}
+    operationId: null
+    proposedOperationId: getCollectionInstance
+  description: List query types supported by the feature service.
+  api: Met Office Site Specific Blended Probabilistic Forecast
+  baseURL: https://data.hub.api.metoffice.gov.uk/mo-blended-prob-forecast-feature-svc/2.0.0
+  readOnly: true
+- name: blended-probabilistic-forecast.listInstanceLocations
+  operation:
+    method: GET
+    path: /collections/{collection_name}/instances/{instance_id}/locations
+    operationId: null
+    proposedOperationId: listInstanceLocations
+  description: Locations query
+  api: Met Office Site Specific Blended Probabilistic Forecast
+  baseURL: https://data.hub.api.metoffice.gov.uk/mo-blended-prob-forecast-feature-svc/2.0.0
+  readOnly: true
+- name: blended-probabilistic-forecast.getLocationForecast
+  operation:
+    method: GET
+    path: /collections/{collection_name}/instances/{instance_id}/locations/{location_id}
+    operationId: null
+    proposedOperationId: getLocationForecast
+  description: Location data query
+  api: Met Office Site Specific Blended Probabilistic Forecast
+  baseURL: https://data.hub.api.metoffice.gov.uk/mo-blended-prob-forecast-feature-svc/2.0.0
+  readOnly: true
+- name: blended-probabilistic-forecast.getNearestPositionForecast
+  operation:
+    method: GET
+    path: /collections/{collection_name}/instances/{instance_id}/position
+    operationId: null
+    proposedOperationId: getNearestPositionForecast
+  description: Nearest neighbour query
+  api: Met Office Site Specific Blended Probabilistic Forecast
+  baseURL: https://data.hub.api.metoffice.gov.uk/mo-blended-prob-forecast-feature-svc/2.0.0
+  readOnly: true
+- name: blended-probabilistic-forecast.getConformance
+  operation:
+    method: GET
+    path: /conformance
+    operationId: null
+    proposedOperationId: getConformance
+  description: Information about standards that this API conforms to.
+  api: Met Office Site Specific Blended Probabilistic Forecast
+  baseURL: https://data.hub.api.metoffice.gov.uk/mo-blended-prob-forecast-feature-svc/2.0.0
+  readOnly: true
+- name: land-observations.getNearestObservationLocation
+  operation:
+    method: GET
+    path: /nearest
+    operationId: null
+    proposedOperationId: getNearestObservationLocation
+  description: Get nearest observation location
+  api: Met Office Land Observations Public API
+  baseURL: https://data.hub.api.metoffice.gov.uk/observation-land/1
+  readOnly: true
+- name: land-observations.getObservationsByGeohash
+  operation:
+    method: GET
+    path: /{geohash}
+    operationId: null
+    proposedOperationId: getObservationsByGeohash
+  description: Get weather observations by geohash
+  api: Met Office Land Observations Public API
+  baseURL: https://data.hub.api.metoffice.gov.uk/observation-land/1
+  readOnly: true
+- name: map-images.getOrders
+  operation:
+    method: GET
+    path: /orders
+    operationId: getOrders
+    proposedOperationId: null
+  description: List all orders visible to current user.
+  api: Map Images
+  baseURL: https://data.hub.api.metoffice.gov.uk/map-images/1.0.0
+  readOnly: true
+- name: map-images.getOrderLatest
+  operation:
+    method: GET
+    path: /orders/{orderId}/latest
+    operationId: getOrderLatest
+    proposedOperationId: null
+  description: Provide a list of the latest available data files for the specified order.
+  api: Map Images
+  baseURL: https://data.hub.api.metoffice.gov.uk/map-images/1.0.0
+  readOnly: true
+- name: map-images.getOrderLatestFileDetails
+  operation:
+    method: GET
+    path: /orders/{orderId}/latest/{fileId}
+    operationId: getOrderLatestFileDetails
+    proposedOperationId: null
+  description: Provide the details of a specific file that can be obtained for the latest available data.
+  api: Map Images
+  baseURL: https://data.hub.api.metoffice.gov.uk/map-images/1.0.0
+  readOnly: true
+- name: map-images.getOrderLatestFileData
+  operation:
+    method: GET
+    path: /orders/{orderId}/latest/{fileId}/data
+    operationId: getOrderLatestFileData
+    proposedOperationId: null
+  description: Gets the actual data for a specific file that can be obtained for the latest available data.
+  api: Map Images
+  baseURL: https://data.hub.api.metoffice.gov.uk/map-images/1.0.0
+  readOnly: true
+- name: map-images.getAllRuns
+  operation:
+    method: GET
+    path: /runs
+    operationId: getAllRuns
+    proposedOperationId: null
+  description: List all runs
+  api: Map Images
+  baseURL: https://data.hub.api.metoffice.gov.uk/map-images/1.0.0
+  readOnly: true
+- name: nswws-warnings.objectsFeed
+  operation:
+    method: GET
+    path: /objects/feed
+    operationId: objectsFeed
+    proposedOperationId: null
+  description: Retrieve the Atom Feed
+  api: Met Office NSWWS Public API
+  baseURL: https://data.hub.api.metoffice.gov.uk/nswws/v1.1
+  readOnly: true
+- name: nswws-warnings.objectsIssued
+  operation:
+    method: GET
+    path: /objects/issued/{uuid}
+    operationId: objectsIssued
+    proposedOperationId: null
+  description: Retrieves a feature collection of latest warnings in a GeoJSON format.
+  api: Met Office NSWWS Public API
+  baseURL: https://data.hub.api.metoffice.gov.uk/nswws/v1.1
+  readOnly: true
+- name: nswws-warnings.objectsUpdated
+  operation:
+    method: GET
+    path: /objects/updated/{uuid}
+    operationId: objectsUpdated
+    proposedOperationId: null
+  description: Retrieves a feature collection of a warning event in a GeoJSON format.
+  api: Met Office NSWWS Public API
+  baseURL: https://data.hub.api.metoffice.gov.uk/nswws/v1.1
+  readOnly: true
+- name: site-specific.getHourlyPointForecast
+  operation:
+    method: GET
+    path: /point/hourly
+    operationId: getForecastForPointUsingGET_1
+    proposedOperationId: getHourlyPointForecast
+  description: Find nearest forecast data that matches the request criteria
+  api: Site Specific Forecast
+  baseURL: https://data.hub.api.metoffice.gov.uk/sitespecific/v0
+  readOnly: true
+- name: site-specific.getThreeHourlyPointForecast
+  operation:
+    method: GET
+    path: /point/three-hourly
+    operationId: getForecastForPointUsingGET_1
+    proposedOperationId: getThreeHourlyPointForecast
+  description: Find nearest forecast data that matches the request criteria
+  api: Site Specific Forecast
+  baseURL: https://data.hub.api.metoffice.gov.uk/sitespecific/v0
+  readOnly: true
+- name: site-specific.getDailyPointForecast
+  operation:
+    method: GET
+    path: /point/daily
+    operationId: getForecastForPointUsingGET_1
+    proposedOperationId: getDailyPointForecast
+  description: Find nearest forecast data that matches the request criteria
+  api: Site Specific Forecast
+  baseURL: https://data.hub.api.metoffice.gov.uk/sitespecific/v0
+  readOnly: true

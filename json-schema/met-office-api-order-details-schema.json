@@ -1,0 +1,180 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/met-office/main/json-schema/met-office-api-order-details-schema.json",
+  "title": "ApiOrderDetails",
+  "x-generated": "2026-10-18",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/met-office-atmospheric-models-openapi.yml#/components/schemas/ApiOrderDetails",
+  "required": [
+    "orderDetails"
+  ],
+  "type": "object",
+  "properties": {
+    "orderDetails": {
+      "$ref": "#/$defs/ApiOrderDetailsOrderDetails"
+    }
+  },
+  "$defs": {
+    "ApiAxisExtent": {
+      "title": "ApiAxisExtent",
+      "required": [
+        "label",
+        "lowerBound",
+        "uomLabel",
+        "upperBound"
+      ],
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "lowerBound": {
+          "type": "string"
+        },
+        "uomLabel": {
+          "type": "string"
+        },
+        "upperBound": {
+          "type": "string"
+        }
+      }
+    },
+    "ApiOrderAxes": {
+      "title": "ApiOrderAxes",
+      "required": [
+        "x",
+        "y"
+      ],
+      "type": "object",
+      "properties": {
+        "x": {
+          "$ref": "#/$defs/ApiAxisExtent"
+        },
+        "y": {
+          "$ref": "#/$defs/ApiAxisExtent"
+        }
+      }
+    },
+    "ApiOrderDetailsOrderDetails": {
+      "title": "ApiOrderDetailsOrderDetails",
+      "required": [
+        "files",
+        "order"
+      ],
+      "type": "object",
+      "properties": {
+        "order": {
+          "$ref": "#/$defs/ApiOrderInfoSummary"
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ApiOrderFile"
+          }
+        }
+      },
+      "description": "Details of the order and a list of available files"
+    },
+    "ApiOrderFile": {
+      "title": "ApiOrderFile",
+      "required": [
+        "fileId",
+        "parameters",
+        "run",
+        "runDateTime",
+        "timesteps"
+      ],
+      "type": "object",
+      "properties": {
+        "fileId": {
+          "type": "string",
+          "description": "Identifier for requesting this file"
+        },
+        "surfaceId": {
+          "type": "string",
+          "description": "Model specific surface type for parameters within this file"
+        },
+        "levels": {
+          "type": "array",
+          "description": "An array of levels for which data will be included",
+          "items": {
+            "type": "string"
+          }
+        },
+        "runDateTime": {
+          "type": "string",
+          "description": "Date and time of the model run"
+        },
+        "run": {
+          "type": "string",
+          "description": "Time of the run within the day"
+        },
+        "region": {
+          "$ref": "#/$defs/ApiRegionDetails"
+        },
+        "parameters": {
+          "type": "array",
+          "description": "Array of one or more parameters that will be included in the file",
+          "items": {
+            "type": "string"
+          }
+        },
+        "timesteps": {
+          "type": "array",
+          "description": "Timesteps, relative to run time, for which data will be returned in this file if available",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ApiOrderInfoSummary": {
+      "title": "ApiOrderInfoSummary",
+      "required": [
+        "format",
+        "modelId",
+        "name",
+        "orderId"
+      ],
+      "type": "object",
+      "properties": {
+        "orderId": {
+          "type": "string",
+          "description": "order identifier"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name assigned to the order by the user"
+        },
+        "modelId": {
+          "type": "string",
+          "description": "Model used to generate the data"
+        },
+        "format": {
+          "type": "string",
+          "description": "Format of the returned data file",
+          "enum": [
+            "GRIB2"
+          ]
+        }
+      }
+    },
+    "ApiRegionDetails": {
+      "title": "ApiRegionDetails",
+      "required": [
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the region"
+        },
+        "extent": {
+          "$ref": "#/$defs/ApiOrderAxes"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,54 @@
+generated: '2026-10-18'
+method: searched
+source:
+- https://www.metoffice.gov.uk/policies/privacy
+- https://www.metoffice.gov.uk/policies/accessibility-met-office-website
+- https://www.metoffice.gov.uk/policies/tandc
+signals:
+  data_subject_request:
+    url: https://www.metoffice.gov.uk/policies/privacy
+    section: Access to your information
+    channel: legal@metoffice.gov.uk
+    evidence:
+      - source: https://www.metoffice.gov.uk/policies/privacy
+        http_status: 200
+        fetched: '2026-10-18'
+        quote: "To exercise any of the above rights, please contact legal@metoffice.gov.uk Please note that we may require evidence of your identity in relation to your request."
+    note: Lists UK data-protection rights (access, rectification, erasure, restriction, portability, objection, automated decision making) and names the email channel for requests.
+  data_residency:
+    url: https://www.metoffice.gov.uk/policies/privacy
+    section: Where we store and process your personal information
+    evidence:
+      - source: https://www.metoffice.gov.uk/policies/privacy
+        http_status: 200
+        fetched: '2026-10-18'
+        quote: "We will not transfer your personal information outside the UK or European Economic Area (EEA) unless suitable safeguards are in place."
+    note: Personal data stays in the UK/EEA unless transfer safeguards apply; this is a transfer policy, not a selectable data-residency option for API customers.
+  subprocessors:
+    url: https://www.metoffice.gov.uk/policies/privacy
+    section: Disclosure of your information
+    evidence:
+      - source: https://www.metoffice.gov.uk/policies/privacy
+        http_status: 200
+        fetched: '2026-10-18'
+        quote: "We may share your personal information with our external third party processors for the purposes of the provision of our services to you and to help us improve our services."
+    note: Acknowledges third-party processors but publishes no named subprocessor list.
+  data_retention:
+    url: https://www.metoffice.gov.uk/policies/privacy
+    section: How long do we retain your data?
+    evidence:
+      - source: https://www.metoffice.gov.uk/policies/privacy
+        http_status: 200
+        fetched: '2026-10-18'
+        quote: "We will only retain your personal information for as long as necessary to fulfil the purposes we collected it for, including the purposes of satisfying any legal and regulatory requirements."
+    note: Purpose-based retention; no fixed retention periods are stated.
+  accessibility_conformance:
+    url: https://www.metoffice.gov.uk/policies/accessibility-met-office-website
+    section: Compliance status
+    evidence:
+      - source: https://www.metoffice.gov.uk/policies/accessibility-met-office-website
+        http_status: 200
+        fetched: '2026-10-18'
+        quote: "This website does not conform to the Web Content Accessibility Guidelines version 2.1 AA standard"
+    note: Statement under the Public Sector Bodies Accessibility Regulations 2018 says the website is partially compliant against WCAG 2.1 AA (it says it "would partially conform" if third-party ads were removed). The statement was last updated 30 September 2026. It covers the website, not the APIs.
+note: The candidate lines for ai_transparency and exit_assistance were the list of data-subject rights ("right to prevent automated decision making", "right to data portability"). They are not AI-transparency or exit-assistance commitments, so neither signal is recorded. The website terms of use (tandc) contain nothing relevant to regulatory posture. The WeatherDataHub terms PDF was not text-searchable in pre-flight. No incident-notification, transparency report, SBOM or GPC statement was found.

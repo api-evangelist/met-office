@@ -1,0 +1,38 @@
+overlay: 1.0.0
+info:
+  title: Site Specific Forecast - API Evangelist overlay
+  version: 1.0.0
+extends: ../openapi/_original/met-office-site-specific-openapi.yml
+x-generated: '2026-10-18'
+x-method: generated
+actions:
+- target: $.info
+  update:
+    x-api-evangelist-profile:
+      provider: met-office
+      generated: '2026-10-18'
+      note: Enhancements captured by API Evangelist; the original contract is unchanged.
+- target: $.paths['/point/hourly'].get
+  description: Original operationId getForecastForPointUsingGET_1 is shared by several operations; propose a unique one.
+  update:
+    operationId: getHourlyPointForecast
+- target: $.paths['/point/hourly'].get
+  update:
+    x-agent-safe: read-only
+    x-idempotent: true
+- target: $.paths['/point/three-hourly'].get
+  description: Original operationId getForecastForPointUsingGET_1 is shared by several operations; propose a unique one.
+  update:
+    operationId: getThreeHourlyPointForecast
+- target: $.paths['/point/three-hourly'].get
+  update:
+    x-agent-safe: read-only
+    x-idempotent: true
+- target: $.paths['/point/daily'].get
+  description: Original operationId getForecastForPointUsingGET_1 is shared by several operations; propose a unique one.
+  update:
+    operationId: getDailyPointForecast
+- target: $.paths['/point/daily'].get
+  update:
+    x-agent-safe: read-only
+    x-idempotent: true

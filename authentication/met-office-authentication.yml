@@ -1,0 +1,23 @@
+generated: '2026-10-18'
+method: searched
+source: https://datahub.metoffice.gov.uk/docs/getting-started
+docs: https://datahub.metoffice.gov.uk/docs/getting-started
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: APIKey
+  type: apiKey
+  in: header
+  parameter: apikey
+  description: The API Key generated with your Subscription in Weather DataHub, this must be
+    set as 'apikey' in your header.
+  sources:
+  - openapi/met-office-atmospheric-models-openapi.yml
+  - openapi/met-office-blended-probabilistic-forecast-openapi.yml
+  - openapi/met-office-land-observations-openapi.yml
+  - openapi/met-office-map-images-openapi.yml
+  - openapi/met-office-nswws-warnings-openapi.yml
+  - openapi/met-office-site-specific-openapi.yml

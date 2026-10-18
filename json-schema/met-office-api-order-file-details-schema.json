@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/met-office/main/json-schema/met-office-api-order-file-details-schema.json",
+  "title": "ApiOrderFileDetails",
+  "x-generated": "2026-10-18",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/met-office-atmospheric-models-openapi.yml#/components/schemas/ApiOrderFileDetails",
+  "required": [
+    "fileDetails"
+  ],
+  "type": "object",
+  "properties": {
+    "fileDetails": {
+      "$ref": "#/$defs/ApiOrderFileDetailsFileDetails"
+    }
+  },
+  "$defs": {
+    "ApiAxisExtent": {
+      "title": "ApiAxisExtent",
+      "required": [
+        "label",
+        "lowerBound",
+        "uomLabel",
+        "upperBound"
+      ],
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "lowerBound": {
+          "type": "string"
+        },
+        "uomLabel": {
+          "type": "string"
+        },
+        "upperBound": {
+          "type": "string"
+        }
+      }
+    },
+    "ApiOrderAxes": {
+      "title": "ApiOrderAxes",
+      "required": [
+        "x",
+        "y"
+      ],
+      "type": "object",
+      "properties": {
+        "x": {
+          "$ref": "#/$defs/ApiAxisExtent"
+        },
+        "y": {
+          "$ref": "#/$defs/ApiAxisExtent"
+        }
+      }
+    },
+    "ApiOrderFile": {
+      "title": "ApiOrderFile",
+      "required": [
+        "fileId",
+        "parameters",
+        "run",
+        "runDateTime",
+        "timesteps"
+      ],
+      "type": "object",
+      "properties": {
+        "fileId": {
+          "type": "string",
+          "description": "Identifier for requesting this file"
+        },
+        "surfaceId": {
+          "type": "string",
+          "description": "Model specific surface type for parameters within this file"
+        },
+        "levels": {
+          "type": "array",
+          "description": "An array of levels for which data will be included",
+          "items": {
+            "type": "string"
+          }
+        },
+        "runDateTime": {
+          "type": "string",
+          "description": "Date and time of the model run"
+        },
+        "run": {
+          "type": "string",
+          "description": "Time of the run within the day"
+        },
+        "region": {
+          "$ref": "#/$defs/ApiRegionDetails"
+        },
+        "parameters": {
+          "type": "array",
+          "description": "Array of one or more parameters that will be included in the file",
+          "items": {
+            "type": "string"
+          }
+        },
+        "timesteps": {
+          "type": "array",
+          "description": "Timesteps, relative to run time, for which data will be returned in this file if available",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ApiOrderFileDetailsFileDetails": {
+      "title": "ApiOrderFileDetailsFileDetails",
+      "required": [
+        "file",
+        "parameterDetails"
+      ],
+      "type": "object",
+      "properties": {
+        "file": {
+          "$ref": "#/$defs/ApiOrderFile"
+        },
+        "parameterDetails": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ApiParameterDetails"
+          }
+        }
+      }
+    },
+    "ApiParameterAxes": {
+      "title": "ApiParameterAxes",
+      "required": [
+        "t"
+      ],
+      "type": "object",
+      "properties": {
+        "t": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "z": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "ApiParameterDetails": {
+      "title": "ApiParameterDetails",
+      "required": [
+        "extent",
+        "parameterId"
+      ],
+      "type": "object",
+      "properties": {
+        "parameterId": {
+          "type": "string",
+          "description": "Identifies a particular parameter within the model"
+        },
+        "extent": {
+          "$ref": "#/$defs/ApiParameterAxes"
+        }
+      }
+    },
+    "ApiRegionDetails": {
+      "title": "ApiRegionDetails",
+      "required": [
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the region"
+        },
+        "extent": {
+          "$ref": "#/$defs/ApiOrderAxes"
+        }
+      }
+    }
+  }
+}

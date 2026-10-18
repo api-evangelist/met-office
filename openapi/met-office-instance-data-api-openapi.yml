@@ -1,0 +1,250 @@
+openapi: 3.2.0
+info:
+  title: Met Office Instance Data API
+  version: 2.0.0
+  contact:
+    name: Data Provisioning Team (DPT)
+    url: https://www.metoffice.gov.uk/about-us/contact
+    email: enquiries@metoffice.gov.uk
+  description: 'Operations tagged Instance Data across 2 of this provider''s published API definitions: mo-site-specific-blended-probabilistic-forecast-v2_subscriber.json, met-office-blended-probabilistic-forecast-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://data.hub.api.metoffice.gov.uk/mo-blended-prob-forecast-feature-svc/2.0.0
+  description: Base URL stated on the Weather DataHub API documentation page
+security:
+- api_key: []
+tags:
+- name: Instance Data
+  description: Available instance data queries.
+paths:
+  /collections/{collection_name}/instances/{instance_id}/locations:
+    get:
+      tags:
+      - Instance Data
+      summary: Locations query
+      description: Provides all locations for the collection and instance as a GeoJSON FeatureCollection
+      parameters:
+      - name: instance_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: collection_name
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: GeoJSON response with all locations for the collection and instance
+          content: {}
+        '500':
+          description: An unexpected error has occurred within the feature service
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      security:
+      - api_key: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+      operationId: getCollectionsByCollectionNameInstancesByInstanceIdLocations
+      x-operation-id-source: derived
+  /collections/{collection_name}/instances/{instance_id}/locations/{location_id}:
+    get:
+      tags:
+      - Instance Data
+      summary: Location data query
+      description: Provides data for the instance id and location id as a CovJson response
+      parameters:
+      - name: location_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: parameter-name
+        in: query
+        description: 'A comma delimited list of parameters to filter on. Any parameter names which don''t exist will be ignored. If no parameters are specified then all available parameters will be returned.
+
+          '
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: datetime
+        in: query
+        description: 'A datetime filter expression which adheres to one of the following:
+
+          - A single datetime in ISO 8601 format, e.g. 2026-01-01T12:00:00Z
+
+          - A list of individual datetimes separated by commas, e.g. 2026-01-01T12:00:00Z,2026-01-02T12:00:00Z
+
+          - A closed date range, following the format `<start>/<end>`, e.g. 2026-01-01T12:00:00Z/2026-01-02T12:00:00Z
+
+          - An open ended date range, following the format `<start>/..`, e.g. 2026-01-01T12:00:00Z/..
+
+          - An open ended date range, following the format `../<end>`, e.g. ../2026-01-02T12:00:00Z
+
+          - A repeating interval, specified as `R{n}/{start datetime}/{duration}` where `n` is the number of repetitions, `start datetime` is the starting datetime in ISO8601 format and `duration` is the duration between each repetition in ISO8601 duration format. E.g. `R3/2026-01-01T00:00:00Z/PT6H`.
+
+          In all cases, datetimes must be specified in ISO8601 format.
+
+          '
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: instance_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: percentiles
+        in: query
+        description: 'A comma delimited list of percentiles to filter on. Percentile values must be numeric, and any percentile values which don''t exist will be ignored. If no percentiles are specified then all available percentiles will be returned.
+
+          '
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: collection_name
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Provides data for the instance id and location id as a CovJson response
+          content: {}
+        '500':
+          description: An unexpected error has occurred within the service
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      security:
+      - api_key: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+      operationId: getCollectionsByCollectionNameInstancesByInstanceIdLocationsByLocationId
+      x-operation-id-source: derived
+  /collections/{collection_name}/instances/{instance_id}/position:
+    get:
+      tags:
+      - Instance Data
+      summary: Nearest neighbour query
+      description: Provides data for the nearest location as a CovJson response
+      parameters:
+      - name: parameter-name
+        in: query
+        description: 'A comma delimited list of parameters to filter on. Any parameter names which don''t exist will be ignored. If no parameters are specified then all available parameters will be returned.
+
+          '
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: datetime
+        in: query
+        description: 'A datetime filter expression which adheres to one of the following:
+
+          - A single datetime in ISO 8601 format, e.g. 2026-01-01T12:00:00Z
+
+          - A list of individual datetimes separated by commas, e.g. 2026-01-01T12:00:00Z,2026-01-02T12:00:00Z
+
+          - A closed date range, following the format `<start>/<end>`, e.g. 2026-01-01T12:00:00Z/2026-01-02T12:00:00Z
+
+          - An open ended date range, following the format `<start>/..`, e.g. 2026-01-01T12:00:00Z/..
+
+          - An open ended date range, following the format `../<end>`, e.g. ../2026-01-02T12:00:00Z
+
+          - A repeating interval, specified as `R{n}/{start datetime}/{duration}` where `n` is the number of repetitions, `start datetime` is the starting datetime in ISO8601 format and `duration` is the duration between each repetition in ISO8601 duration format. E.g. `R3/2026-01-01T00:00:00Z/PT6H`.
+
+          In all cases, datetimes must be specified in ISO8601 format.
+
+          '
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: instance_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: percentiles
+        in: query
+        description: 'A comma delimited list of percentiles to filter on. Percentile values must be numeric, and any percentile values which don''t exist will be ignored. If no percentiles are specified then all available percentiles will be returned.
+
+          '
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: coords
+        in: query
+        description: 'a WKT (Well Known Text) representation of the point,  in the format POINT(longitude latitude). For example POINT(5.22 4.31)
+
+          '
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: collection_name
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: CovJson response with the nearest feature to the point specified in the query
+          content: {}
+        '500':
+          description: An unexpected error has occurred within the feature service
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      security:
+      - api_key: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+      operationId: getCollectionsByCollectionNameInstancesByInstanceIdPosition
+      x-operation-id-source: derived
+components:
+  schemas:
+    error:
+      type: object
+      properties:
+        message:
+          type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      description: The API Key generated with your Subscription in Weather DataHub, this must be set as 'apikey' in your header.
+      name: apikey
+      in: header
+x-refined-from:
+- mo-site-specific-blended-probabilistic-forecast-v2_subscriber.json
+- met-office-blended-probabilistic-forecast-openapi.yml

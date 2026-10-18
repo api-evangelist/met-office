@@ -1,0 +1,506 @@
+# x-archived-from: met-office-blended-probabilistic-forecast-openapi.yml
+# x-archived-on: 2026-10-18
+openapi: 3.0.1
+info:
+  title: Met Office Site Specific Blended Probabilistic Forecast
+  description: "This service implements an Environmental Data Retrieval (EDR) API for serving improver feature data.\n\n IMPROVER\
+    \ is an abbreviation of Integrated Model Post-Processing and Verification. This refers to the new probabilistic post-processing\
+    \ weather data system we have developed which drives the output of data for the Met Office Site-Specific Blended Probabilistic\
+    \ forecast. \n \n When you call this API, you will need to set your API key.\n\nAPI Usage is typically done in 4 steps:\n\
+    \n1.\tCall GET /2.0.0/collections - to retrieve a list of collections along with their metadata, collection name, and\
+    \ available endpoints.\n2.\tCall GET /2.0.0/collections/{collection_name}/instances - to retrieve a list of available\
+    \ instances for the collection.\n3.\tCall GET /2.0.0/collections/{collection_name}/instances/{instance_id}/locations -\
+    \ to retrieve a list of available locations for the collection and instance including their coordinates and location ID.\n\
+    4.\tCall GET /2.0.0/collections/{collection_name}/instances/{instance_id}/locations/{location_id} - to fetch weather data\
+    \ for the specified location.\n\nAlternatively:\n\n3.\tCall GET /2.0.0/collections/{collection_name}/instances/{instance_id}/position\
+    \ - to fetch weather data from the nearest location to a set of coordinates. \n\nFor additional information:\n\n1.\tCall\
+    \ GET /2.0.0/ - to retrieve the API definition and metadata.\n2.\tCall GET /2.0.0/conformance - to retrieve a list of\
+    \ specifications this API conforms to.\n3.\tCall GET /2.0.0/collections/{collection_name} - to retrieve metadata about\
+    \ a specific collection.\n4.\tCall GET /2.0.0/collections/{collection_name}/instances/{instance_id} - to retrieve metadata\
+    \ about a specific instance.\n\nIf there are any errors or issues, each endpoint will provide an appropriate HTTP response\
+    \ and may provide a JSON body providing you with further helpful information, so please do not forget to check for errors.\n\
+    \nIf you are testing before development or downloading using scripts with a tool like Curl you can view errors using --verbose.\
+    \ If you do not do this it could just appear that you are getting \"nothing back\".\n\n"
+  contact:
+    name: Data Provisioning Team (DPT)
+    url: https://www.metoffice.gov.uk/about-us/contact
+    email: enquiries@metoffice.gov.uk
+  version: 2.0.0
+servers:
+- url: https://data.hub.api.metoffice.gov.uk/mo-blended-prob-forecast-feature-svc/2.0.0
+  description: Base URL stated on the Weather DataHub API documentation page
+security:
+- api_key: []
+tags:
+- name: Capabilities
+  description: Essential characteristics of the information available from the API.
+- name: Collection Metadata
+  description: Description of the information available from the collections.
+- name: Collection Data
+  description: Available collection data queries.
+- name: Instance Metadata
+  description: Description of the information available from instances.
+- name: Instance Data
+  description: Available instance data queries.
+paths:
+  /:
+    get:
+      tags:
+      - Capabilities
+      summary: Landing page of Feature API
+      description: Provides links to the Feature API definition, the Conformance statements and the metadata about data in
+        this dataset.
+      responses:
+        '200':
+          description: List of endpoint links offered by Feature API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MODEL5c21c2'
+        '500':
+          description: An unexpected error has occurred within the Feature service
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      security:
+      - api_key: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /collections:
+    get:
+      tags:
+      - Collection Metadata
+      summary: Available collections.
+      description: Lists the available collections from the Feature Service API.
+      responses:
+        '200':
+          description: Lists of links and collections
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MODEL3b85ce'
+        '500':
+          description: An unexpected error has occurred within the Feature service
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      security:
+      - api_key: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /collections/{collection_name}:
+    get:
+      tags:
+      - Collection Metadata
+      summary: List query types supported by the feature service.
+      description: 'This will provide information about the query types that are supported by the feature service.
+
+        '
+      parameters:
+      - name: collection_name
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Links and details of the feature service
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/collection'
+        '500':
+          description: An unexpected error has occurred within the Feature Service
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      security:
+      - api_key: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /collections/{collection_name}/instances:
+    get:
+      tags:
+      - Instance Metadata
+      summary: Available instances for this collection.
+      description: Lists the available instances within the collection from the Feature Service API.
+      parameters:
+      - name: collection_name
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Lists of links and instances
+          content: {}
+        '500':
+          description: An unexpected error has occurred within the Feature service
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      security:
+      - api_key: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /collections/{collection_name}/instances/{instance_id}:
+    get:
+      tags:
+      - Instance Metadata
+      summary: List query types supported by the feature service.
+      description: 'This will provide information about the query types that are supported by the feature service.
+
+        '
+      parameters:
+      - name: instance_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: collection_name
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Links and details of the feature service
+          content: {}
+        '500':
+          description: An unexpected error has occurred within the Feature Service
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      security:
+      - api_key: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /collections/{collection_name}/instances/{instance_id}/locations:
+    get:
+      tags:
+      - Instance Data
+      summary: Locations query
+      description: Provides all locations for the collection and instance as a GeoJSON FeatureCollection
+      parameters:
+      - name: instance_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: collection_name
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: GeoJSON response with all locations for the collection and instance
+          content: {}
+        '500':
+          description: An unexpected error has occurred within the feature service
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      security:
+      - api_key: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /collections/{collection_name}/instances/{instance_id}/locations/{location_id}:
+    get:
+      tags:
+      - Instance Data
+      summary: Location data query
+      description: Provides data for the instance id and location id as a CovJson response
+      parameters:
+      - name: location_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: parameter-name
+        in: query
+        description: 'A comma delimited list of parameters to filter on. Any parameter names which don''t exist will be ignored.
+          If no parameters are specified then all available parameters will be returned.
+
+          '
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: datetime
+        in: query
+        description: 'A datetime filter expression which adheres to one of the following:
+
+          - A single datetime in ISO 8601 format, e.g. 2026-01-01T12:00:00Z
+
+          - A list of individual datetimes separated by commas, e.g. 2026-01-01T12:00:00Z,2026-01-02T12:00:00Z
+
+          - A closed date range, following the format `<start>/<end>`, e.g. 2026-01-01T12:00:00Z/2026-01-02T12:00:00Z
+
+          - An open ended date range, following the format `<start>/..`, e.g. 2026-01-01T12:00:00Z/..
+
+          - An open ended date range, following the format `../<end>`, e.g. ../2026-01-02T12:00:00Z
+
+          - A repeating interval, specified as `R{n}/{start datetime}/{duration}` where `n` is the number of repetitions,
+          `start datetime` is the starting datetime in ISO8601 format and `duration` is the duration between each repetition
+          in ISO8601 duration format. E.g. `R3/2026-01-01T00:00:00Z/PT6H`.
+
+          In all cases, datetimes must be specified in ISO8601 format.
+
+          '
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: instance_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: percentiles
+        in: query
+        description: 'A comma delimited list of percentiles to filter on. Percentile values must be numeric, and any percentile
+          values which don''t exist will be ignored. If no percentiles are specified then all available percentiles will be
+          returned.
+
+          '
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: collection_name
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Provides data for the instance id and location id as a CovJson response
+          content: {}
+        '500':
+          description: An unexpected error has occurred within the service
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      security:
+      - api_key: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /collections/{collection_name}/instances/{instance_id}/position:
+    get:
+      tags:
+      - Instance Data
+      summary: Nearest neighbour query
+      description: Provides data for the nearest location as a CovJson response
+      parameters:
+      - name: parameter-name
+        in: query
+        description: 'A comma delimited list of parameters to filter on. Any parameter names which don''t exist will be ignored.
+          If no parameters are specified then all available parameters will be returned.
+
+          '
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: datetime
+        in: query
+        description: 'A datetime filter expression which adheres to one of the following:
+
+          - A single datetime in ISO 8601 format, e.g. 2026-01-01T12:00:00Z
+
+          - A list of individual datetimes separated by commas, e.g. 2026-01-01T12:00:00Z,2026-01-02T12:00:00Z
+
+          - A closed date range, following the format `<start>/<end>`, e.g. 2026-01-01T12:00:00Z/2026-01-02T12:00:00Z
+
+          - An open ended date range, following the format `<start>/..`, e.g. 2026-01-01T12:00:00Z/..
+
+          - An open ended date range, following the format `../<end>`, e.g. ../2026-01-02T12:00:00Z
+
+          - A repeating interval, specified as `R{n}/{start datetime}/{duration}` where `n` is the number of repetitions,
+          `start datetime` is the starting datetime in ISO8601 format and `duration` is the duration between each repetition
+          in ISO8601 duration format. E.g. `R3/2026-01-01T00:00:00Z/PT6H`.
+
+          In all cases, datetimes must be specified in ISO8601 format.
+
+          '
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: instance_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: percentiles
+        in: query
+        description: 'A comma delimited list of percentiles to filter on. Percentile values must be numeric, and any percentile
+          values which don''t exist will be ignored. If no percentiles are specified then all available percentiles will be
+          returned.
+
+          '
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: coords
+        in: query
+        description: 'a WKT (Well Known Text) representation of the point,  in the format POINT(longitude latitude). For example
+          POINT(5.22 4.31)
+
+          '
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: collection_name
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: CovJson response with the nearest feature to the point specified in the query
+          content: {}
+        '500':
+          description: An unexpected error has occurred within the feature service
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      security:
+      - api_key: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /conformance:
+    get:
+      tags:
+      - Capabilities
+      summary: Information about standards that this API conforms to.
+      description: Lists all requirements classes specified in a standard that the Feature Service conforms to.
+      responses:
+        '200':
+          description: List of links to standards
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MODEL682434'
+        '500':
+          description: An unexpected error has occurred within the Feature Service
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      security:
+      - api_key: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+components:
+  schemas:
+    MODEL3b85ce:
+      type: object
+      properties:
+        collections:
+          $ref: '#/components/schemas/collections'
+        links:
+          $ref: '#/components/schemas/links'
+    MODEL5c21c2:
+      type: object
+      properties:
+        description:
+          type: string
+        links:
+          $ref: '#/components/schemas/links'
+        title:
+          type: string
+    MODEL682434:
+      type: object
+      properties:
+        conformsTo:
+          type: array
+          items:
+            type: string
+    collection:
+      type: object
+      properties:
+        id:
+          type: string
+        links:
+          $ref: '#/components/schemas/links'
+        output_formats:
+          type: array
+          items:
+            type: string
+        title:
+          type: string
+    collections:
+      type: array
+      items:
+        $ref: '#/components/schemas/collection'
+    error:
+      type: object
+      properties:
+        message:
+          type: string
+    link:
+      type: object
+      properties:
+        href:
+          type: string
+        hrefLang:
+          type: string
+        rel:
+          type: string
+        title:
+          type: string
+        type:
+          type: string
+    links:
+      type: array
+      items:
+        $ref: '#/components/schemas/link'
+  securitySchemes:
+    api_key:
+      type: apiKey
+      description: The API Key generated with your Subscription in Weather DataHub, this must be set as 'apikey' in your header.
+      name: apikey
+      in: header
+x-amazon-apigateway-security-policy: TLS_1_0
+x-original: https://datahub.metoffice.gov.uk/downloads/api-definitions/mo-site-specific-blended-probabilistic-forecast-v2_subscriber.json
