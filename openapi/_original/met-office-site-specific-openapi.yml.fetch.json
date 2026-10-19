@@ -1,0 +1,12 @@
+{
+ "url": "https://datahub.metoffice.gov.uk/downloads/api-definitions/weathercloud2api_subscriber.json",
+ "requested_url": "https://datahub.metoffice.gov.uk/downloads/api-definitions/weathercloud2api_subscriber.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 21466,
+ "sha256": "d2a4e29dec19ea9866269068cc5101d27de128feefc7edf0333fdf39f7cb71a8",
+ "fetched_at": "2026-10-19",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 1.0), but the bytes differ, so the archive is an earlier or reformatted copy."
+}

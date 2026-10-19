@@ -1,0 +1,12 @@
+{
+ "url": "https://datahub.metoffice.gov.uk/downloads/api-definitions/atmosphericmodel_versioned_subscriber.json",
+ "requested_url": "https://datahub.metoffice.gov.uk/downloads/api-definitions/atmosphericmodel_versioned_subscriber.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 63627,
+ "sha256": "db8b42d3ebad59c509cadfdfd53577f4239276cb2ecc40330cee9a6c83b41569",
+ "fetched_at": "2026-10-19",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the archived file is byte-identical to what the provider serves."
+}
