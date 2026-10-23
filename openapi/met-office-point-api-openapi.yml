@@ -366,3 +366,9 @@ components:
 x-refined-from:
 - weathercloud2api_subscriber.json
 - met-office-site-specific-openapi.yml
+x-provenance:
+  method: harvested
+  publisher: Met Office
+  source: https://datahub.metoffice.gov.uk/downloads/api-definitions/weathercloud2api_subscriber.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)

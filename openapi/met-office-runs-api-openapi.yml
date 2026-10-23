@@ -187,3 +187,9 @@ x-refined-from:
 - atmosphericmodel_versioned_subscriber.json
 - met-office-atmospheric-models-openapi.yml
 - met-office-map-images-openapi.yml
+x-provenance:
+  method: harvested
+  publisher: Met Office
+  source: https://datahub.metoffice.gov.uk/downloads/api-definitions/atmosphericmodel_versioned_subscriber.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
