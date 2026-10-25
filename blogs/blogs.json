@@ -1,0 +1,14 @@
+{
+  "repo": "met-office",
+  "feeds": [
+    {
+      "source": "https://www.metoffice.gov.uk/blog",
+      "feed_url": "https://www.metoffice.gov.uk/blog",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    }
+  ],
+  "post_count": 0,
+  "fetched": "2026-10-24T12:29:31Z"
+}
